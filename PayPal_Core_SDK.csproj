@@ -54,6 +54,7 @@
     <Compile Include="Authentication\IThirdPartyAuthorization.cs" />
     <Compile Include="Authentication\TokenAuthorization.cs" />
     <Compile Include="DefaultSOAPAPICallHandler.cs" />
+    <Compile Include="IPNMessage.cs" />
     <Compile Include="NVP\CertificateHttpHeaderAuthStrategy.cs" />
     <Compile Include="NVP\PlatformAPICallPreHandler.cs" />
     <Compile Include="NVP\SignatureHttpHeaderAuthStrategy.cs" />

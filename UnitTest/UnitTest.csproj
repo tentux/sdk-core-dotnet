@@ -41,6 +41,7 @@
     <Compile Include="Authentication\SubjectAuthorizationTest .cs" />
     <Compile Include="Authentication\TokenAuthorizationTest.cs" />
     <Compile Include="DefaultSOAPAPICallHandlerTest.cs" />
+    <Compile Include="IPNMessageTest.cs" />
     <Compile Include="Manager\ConfigManagerTest.cs" />
     <Compile Include="Manager\ConnectionManagerTest.cs" />
     <Compile Include="Manager\CredentialManagerTest.cs" />

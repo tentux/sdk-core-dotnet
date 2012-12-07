@@ -107,6 +107,9 @@ namespace PayPal
         // Credential Certificate Key
         public const string CREDENTIAL_CERTKEY_SUFFIX = "privateKeyPassword";
 
+        //IPN endpoint property name
+        public const string IPNEndpoint = "ipn.EndPoint";
+
         public static class ErrorMessages
         {
             public const string PROFILE_NULL = "APIProfile cannot be null.";
