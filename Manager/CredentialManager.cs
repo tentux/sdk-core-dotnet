@@ -12,7 +12,7 @@ namespace PayPal.Manager
         /// <summary>
         /// Exception log
         /// </summary>
-        private static readonly ILog log = LogManager.GetLogger(typeof(CredentialManager));
+        private static readonly ILog logger = LogManagerWrapper.GetLogger(typeof(CredentialManager));
 
         /// <summary>
         /// Singleton instance of ConnectionManager
@@ -23,7 +23,11 @@ namespace PayPal.Manager
         /// Explicit static constructor to tell C# compiler
         /// not to mark type as beforefieldinit
         /// </summary>
-        static CredentialManager() { }
+        static CredentialManager() 
+        {
+            //Load log configuration
+            //log4net.Config.XmlConfigurator.Configure();
+        }
 
         /// <summary>
         /// Private Constructor

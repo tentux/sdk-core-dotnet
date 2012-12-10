@@ -29,7 +29,7 @@ namespace PayPal
         /// <summary>
         /// Exception log
         /// </summary>
-        private static readonly ILog log = LogManager.GetLogger(typeof(APIService));
+        private static readonly ILog logger = LogManagerWrapper.GetLogger(typeof(APIService));
 
         private static ArrayList retryCodes = new ArrayList(new HttpStatusCode[] 
                                                 { HttpStatusCode.GatewayTimeout,
@@ -37,7 +37,6 @@ namespace PayPal
                                                   HttpStatusCode.InternalServerError,
                                                   HttpStatusCode.ServiceUnavailable,
                                                 });
-
         /// <summary>
         /// Makes a request to API service
         /// </summary>
@@ -58,18 +57,18 @@ namespace PayPal
             {
                 httpRequest.Headers.Add(header.Key, header.Value);
             }  
-            if (log.IsDebugEnabled)
+            if (logger.IsDebugEnabled)
             {
                 foreach (string headerName in httpRequest.Headers)
                 {
-                    log.Debug(headerName + ":" + httpRequest.Headers[headerName]);
+                    logger.Debug(headerName + ":" + httpRequest.Headers[headerName]);
                 }
             }
             // Adding payLoad to HttpWebRequest object
             using (StreamWriter myWriter = new StreamWriter(httpRequest.GetRequestStream()))
             {
                 myWriter.Write(payLoad);
-                log.Debug(payLoad);
+                logger.Debug(payLoad);
             }
 
             if (apiCallHandler.GetCredential() is CertificateCredential)
@@ -103,8 +102,8 @@ namespace PayPal
                         using (StreamReader sr = new StreamReader(response.GetResponseStream()))
                         {
                             responseString = sr.ReadToEnd();
-                            log.Debug("Service response");
-                            log.Debug(responseString);
+                            logger.Debug("Service response");
+                            logger.Debug(responseString);
                             return responseString;
                         }
                     }
@@ -114,7 +113,7 @@ namespace PayPal
                 {
                     HttpStatusCode statusCode = ((HttpWebResponse)we.Response).StatusCode;
 
-                    log.Info("Got " + statusCode.ToString() + " response from server");
+                    logger.Info("Got " + statusCode.ToString() + " response from server");
                     if (!RequiresRetry(we))
                     {
                         throw new ConnectionException("Invalid HTTP response " + we.Message);

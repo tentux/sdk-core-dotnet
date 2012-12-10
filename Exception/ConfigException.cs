@@ -7,7 +7,7 @@ namespace PayPal.Exception
         /// <summary>
         /// Exception log
         /// </summary>
-		private static ILog log = LogManager.GetLogger("com.paypal.sdk.exceptions.ConfigException"); 
+        private static readonly ILog logger = LogManagerWrapper.GetLogger(typeof(ConfigException));
 
 		/// <summary>
 		/// Represents application configuration errors 
@@ -20,9 +20,9 @@ namespace PayPal.Exception
 		/// <param name="message">The message that describes the error</param>
 		public ConfigException(string message): base(message)
 		{
-			if (log.IsErrorEnabled)
+			if (logger.IsErrorEnabled)
 			{
-				log.Error(message, this);
+				logger.Error(message, this);
 			}
 		}
 
@@ -33,9 +33,9 @@ namespace PayPal.Exception
 		/// <param name="cause">The exception that is the cause of the current exception</param>
 		public ConfigException(string message, System.Exception cause): base(message, cause)
 		{
-			if (log.IsErrorEnabled) 
+			if (logger.IsErrorEnabled) 
 			{
-				log.Error(message, this);
+				logger.Error(message, this);
 			}
 		}
 	} // ConfigException

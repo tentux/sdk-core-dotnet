@@ -96,7 +96,7 @@ namespace PayPal
         public const string CREDENTIAL_APPLICACTIONID = "applicationId";
 
         // Credential Subject
-        public const string CREDENTIAL_SUBJECT = ".Subject";
+        public const string CREDENTIAL_SUBJECT = "Subject";
 
         // Credential Signature
         public const string CREDENTIAL_SIGNATURE = "apiSignature";
@@ -108,7 +108,7 @@ namespace PayPal
         public const string CREDENTIAL_CERTKEY_SUFFIX = "privateKeyPassword";
 
         //IPN endpoint property name
-        public const string IPNEndpoint = "ipn.EndPoint";
+        public const string IPNEndpoint = "IPNEndpoint";
 
         public static class ErrorMessages
         {

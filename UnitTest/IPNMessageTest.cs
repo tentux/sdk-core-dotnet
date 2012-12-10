@@ -3,19 +3,57 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using PayPal;
+using System.Collections.Specialized;
+using System.Web;
 
 namespace PayPal.UnitTest
 {
     [TestFixture]
     class IPNMessageTest
     {
+        string ipnPay = "fees_payer=EACHRECEIVER&payment_request_date=Thu+Dec+06+22%3A50%3A00+PST+2012&transaction[0].is_primary_receiver=false&transaction[0].pending_reason=NONE&cancel_url=http%3A%2F%2Flocalhost%3A9080%2Fadaptivepayments-sample%2Findex.html&status=COMPLETED&transaction_type=Adaptive+Payment+PAY&transaction[0].status=Completed&verify_sign=AM1sBeDL1IjnsgstrDz8f0QWZStzApiXR3gXXjJUE15uzMlXzQmgS-.C&charset=windows-1252&sender_email=jb-us-seller%40paypal.com&log_default_shipping_address_in_transaction=false&transaction[0].amount=USD+2.00&pay_key=AP-70354820B64901803&reverse_all_parallel_payments_on_error=false&ipn_notification_url=https%3A%2F%2Fnpi.pagekite.me%2Fadaptivepaymentssample%2FIPNListener&transaction[0].id=0UJ53158NW5107715&return_url=http%3A%2F%2Flocalhost%3A9080%2Fadaptivepayments-sample%2Findex.html&transaction[0].receiver=platfo_1255612361_per%40gmail.com&transaction[0].id_for_sender_txn=8UL93971B69293341&action_type=PAY&notify_version=UNVERSIONED&transaction[0].status_for_sender_txn=Completed&test_ipn=1";
+        NameValueCollection ipnMap = new NameValueCollection();
+
         [Test]
-        public void ProcessRequestTest()
+        public void IPNRequest()
         {
-            string ipnPay = "payment_request_date=Fri+Dec+07+06%3A13%3A08+PST+2012&return_url=http%3A//localhost%3A2646/Pay.aspx&fees_payer=EACHRECEIVER&ipn_notification_url=https%3A//paypalipntomato.pagekite.me&sender_email=platfo_1255077030_biz%40gmail.com&verify_sign=A356shdxpagv3WFZg1T-KSV2n84QA88bVSENpWDwz.4qI.LH3cEDzt6U&test_ipn=1&transaction%5B0%5D.id_for_sender_txn=2PY733205A444370A&transaction%5B0%5D.receiver=platfo_1255612361_per%40gmail.com&cancel_url=http%3A//localhost%3A2646/Pay.aspx&transaction%5B0%5D.is_primary_receiver=false&pay_key=AP-9TD446890S775454W&action_type=PAY&transaction%5B0%5D.id=2VC06876VP3217226&memo=AustraliaMemo&transaction%5B0%5D.status=Completed&transaction%5B0%5D.paymentType=SERVICE&transaction%5B0%5D.status_for_sender_txn=Completed&transaction%5B0%5D.pending_reason=NONE&transaction_type=Adaptive+Payment+PAY&transaction%5B0%5D.amount=USD+1.00&status=COMPLETED&log_default_shipping_address_in_transaction=false&charset=windows-1252&notify_version=UNVERSIONED&reverse_all_parallel_payments_on_error=false";
-            IPNMessage ipn = new IPNMessage();
-            ipn.ProcessRequest(ipnPay);
+            NameValueCollection nvc = HttpUtility.ParseQueryString(ipnPay);
+            IPNMessage ipn = new IPNMessage(nvc); 
             Assert.IsTrue(ipn.IPNVerification);
         }
+
+        [Test]
+        public void IPNTransactionType()
+        {
+            NameValueCollection nvc = HttpUtility.ParseQueryString(ipnPay);
+            IPNMessage ipn = new IPNMessage(nvc); 
+            string transactionType = ipn.TransactionType;
+            Assert.AreEqual("Adaptive Payment PAY", transactionType);
+        }
+
+        [Test]
+        public void IPNParameter()
+        {
+            NameValueCollection nvc = HttpUtility.ParseQueryString(ipnPay);
+            IPNMessage ipn = new IPNMessage(nvc); 
+            string parameter = ipn.IPNParameterValue("fees_payer");
+            Assert.AreEqual("EACHRECEIVER", parameter);
+        }        
+
+        [Test]
+        public void IPNParameterParse()
+        {
+            NameValueCollection nvc = HttpUtility.ParseQueryString(ipnPay);
+
+            if (nvc.HasKeys())
+            {
+                // Get first name and value
+                string name = nvc.GetKey(0);
+                string value = nvc.Get(0);
+                ipnMap.Add(name, value);
+            }
+            string parameter = ipnMap["fees_payer"];
+            Assert.AreEqual("EACHRECEIVER", parameter);
+        }             
     }
 }
