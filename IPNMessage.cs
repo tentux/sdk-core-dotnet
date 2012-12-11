@@ -101,6 +101,17 @@ namespace PayPal
         }
 
         /// <summary>
+        /// Gets the IPN request NameValueCollection
+        /// </summary>
+        public NameValueCollection IPNMap
+        {
+            get
+            {
+                return ipnMap;
+            }
+        }
+
+        /// <summary>
         /// Gets the IPN request verification status
         /// </summary>
         public bool IPNVerification
@@ -116,7 +127,7 @@ namespace PayPal
         /// </summary>
         /// <param name="ipnName"></param>
         /// <returns></returns>
-        public string IPNParameter(string ipnName)
+        public string IPNParameterValue(string ipnName)
         {
             return this.ipnMap[ipnName] != null ? this.ipnMap[ipnName] : null;
         }

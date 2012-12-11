@@ -15,7 +15,7 @@ namespace PayPal.UnitTest
         NameValueCollection ipnMap = new NameValueCollection();
 
         [Test]
-        public void IPNRequestVerification()
+        public void IPNRequest()
         {
             NameValueCollection nvc = HttpUtility.ParseQueryString(ipnPay);
             IPNMessage ipn = new IPNMessage(nvc); 
@@ -23,7 +23,16 @@ namespace PayPal.UnitTest
         }
 
         [Test]
-        public void IPNTransactionTypeVerification()
+	    public void IPNMap() 
+        {
+            NameValueCollection nvc = HttpUtility.ParseQueryString(ipnPay);
+            IPNMessage ipn = new IPNMessage(nvc);
+            NameValueCollection ipnMap = ipn.IPNMap;
+            Assert.IsNotNull(ipnMap);
+	    }
+
+        [Test]
+        public void IPNTransaction()
         {
             NameValueCollection nvc = HttpUtility.ParseQueryString(ipnPay);
             IPNMessage ipn = new IPNMessage(nvc); 
@@ -32,16 +41,16 @@ namespace PayPal.UnitTest
         }
 
         [Test]
-        public void IPNParameterVerification()
+        public void IPNParameter()
         {
             NameValueCollection nvc = HttpUtility.ParseQueryString(ipnPay);
             IPNMessage ipn = new IPNMessage(nvc); 
-            string parameter = ipn.IPNParameter("fees_payer");
+            string parameter = ipn.IPNParameterValue("fees_payer");
             Assert.AreEqual("EACHRECEIVER", parameter);
         }        
 
         [Test]
-        public void IPNParameterParse()
+        public void IPNParseQueryString()
         {
             NameValueCollection nvc = HttpUtility.ParseQueryString(ipnPay);
             if (nvc.HasKeys())
