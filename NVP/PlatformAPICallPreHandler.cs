@@ -59,8 +59,13 @@ namespace PayPal.NVP
         /// </summary>
 	    private Dictionary<string, string> headers;
 
+        /// <summary>
+        /// Port name
+        /// </summary>
+        private string prtName;
+
 	    /// <summary>
-	    /// Private Constructor
+	    /// Private constructor
 	    /// </summary>
 	    /// <param name="rawPayLoad"></param>
 	    /// <param name="serviceName"></param>
@@ -143,6 +148,21 @@ namespace PayPal.NVP
 	    }
 
         /// <summary>
+        /// Gets and sets the port name
+        /// </summary>
+        public string PortName
+        {
+            get
+            {
+                return prtName;
+            }
+            set
+            {
+                this.prtName = value;
+            }
+        }
+
+        /// <summary>
         /// Returns the Header
         /// </summary>
         /// <returns></returns>
@@ -185,10 +205,18 @@ namespace PayPal.NVP
 		    return rawPayLoad;
 	    }
 
-	    public string GetEndPoint() 
+        /// <summary>
+        /// Returns the endpoint url
+        /// </summary>
+        /// <returns></returns>
+	    public string GetEndPoint()
         {
-		    return ConfigManager.Instance.GetProperty(BaseConstants.END_POINT) + serviceName + "/" + method;
-	    }
+            if (PortName == null || string.IsNullOrEmpty(ConfigManager.Instance.GetProperty(PortName)))
+            {
+                return ConfigManager.Instance.GetProperty(BaseConstants.END_POINT) + serviceName + "/" + method;
+            }
+            return ConfigManager.Instance.GetProperty(PortName) + serviceName + "/" + method;
+        }
 
         /// <summary>
         /// Reurns instance of ICredential

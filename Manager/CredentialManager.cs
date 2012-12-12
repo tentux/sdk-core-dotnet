@@ -30,7 +30,7 @@ namespace PayPal.Manager
         }
 
         /// <summary>
-        /// Private Constructor
+        /// Private constructor
         /// </summary>
         private CredentialManager() { }
         

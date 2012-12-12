@@ -5,14 +5,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("UnitTest")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyTitle("PayPal Core SDK UnitTest for .NET")]
 [assembly: AssemblyCompany("eBay, Inc.")]
-[assembly: AssemblyProduct("UnitTest")]
+[assembly: AssemblyProduct("PayPal_Core_SDK_UnitTest")]
 [assembly: AssemblyCopyright("Copyright © eBay, Inc. 2012")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

@@ -54,15 +54,20 @@ namespace PayPal.SOAP
 	    /// Internal variable to hold payload
 	    /// </summary>
 	    private string payLoad;
-        
-       /// <summary>
-        /// Private Constructor
-       /// </summary>
-       /// <param name="apiCallHandler"></param>
-	    private MerchantAPICallPreHandler(IAPICallPreHandler apiCallHandler) : base()
+
+        /// <summary>
+        /// Port name
+        /// </summary>
+        private string prtName;
+
+        /// <summary>
+        /// Private constructor
+        /// </summary>
+        /// <param name="apiCallHandler"></param>
+        private MerchantAPICallPreHandler(IAPICallPreHandler apiCallHandler) : base()
         {
             this.apiCallHandler = apiCallHandler;
-	    }  
+        }  
 
         /// <summary>
         /// SOAPAPICallPreHandler decorating basic IAPICallPreHandler using API Username
@@ -130,6 +135,20 @@ namespace PayPal.SOAP
             }
         }
 
+        /// <summary>
+        /// Gets and sets the port mame
+        /// </summary>
+        public string PortName
+        {
+            get
+            {
+                return prtName;
+            }
+            set
+            {
+                this.prtName = value;
+            }
+        }
 
         /// <summary>
         /// Returns the Header
@@ -198,12 +217,16 @@ namespace PayPal.SOAP
 	    }
 
         /// <summary>
-        /// Returns the endpoint
+        /// Returns the endpoint url
         /// </summary>
         /// <returns></returns>
 	    public string GetEndPoint() 
         {
-		    return apiCallHandler.GetEndPoint();
+            if (PortName == null || string.IsNullOrEmpty(ConfigManager.Instance.GetProperty(PortName)))
+            {
+                return apiCallHandler.GetEndPoint();
+            }
+            return ConfigManager.Instance.GetProperty(PortName);
 	    }
         
         /// <summary>

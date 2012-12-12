@@ -5,14 +5,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Base")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("eBay Inc.,")]
-[assembly: AssemblyProduct("Base")]
-[assembly: AssemblyCopyright("Copyright © eBay Inc., 2009")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+[assembly: AssemblyTitle("PayPal Core SDK for .NET")]
+[assembly: AssemblyCompany("eBay Inc.")]
+[assembly: AssemblyProduct("PayPal_Core_SDK")]
+[assembly: AssemblyCopyright("Copyright © eBay Inc., 2009-2012")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
