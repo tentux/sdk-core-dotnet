@@ -11,7 +11,7 @@ namespace PayPal.Manager
     public sealed class ConnectionManager
     {
         /// <summary>
-        /// Exception log
+        /// Logger
         /// </summary>
         private static ILog logger = LogManagerWrapper.GetLogger(typeof(ConnectionManager));
         

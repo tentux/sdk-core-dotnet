@@ -9,7 +9,7 @@ namespace PayPal.NVP
     public class CertificateHttpHeaderAuthStrategy : AbstractCertificateHttpHeaderAuthStrategy 
     {
         /// <summary>
-        /// Exception log
+        /// Logger
         /// </summary>
         private static readonly ILog logger = LogManagerWrapper.GetLogger(typeof(CertificateHttpHeaderAuthStrategy));
 

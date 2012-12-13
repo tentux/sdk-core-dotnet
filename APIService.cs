@@ -27,7 +27,7 @@ namespace PayPal
         private X509Certificate x509;
 
         /// <summary>
-        /// Exception log
+        /// Logger
         /// </summary>
         private static readonly ILog logger = LogManagerWrapper.GetLogger(typeof(APIService));
 

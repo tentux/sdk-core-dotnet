@@ -10,7 +10,7 @@ namespace PayPal.SOAP
     public class SignatureHttpHeaderAuthStrategy : AbstractSignatureHttpHeaderAuthStrategy
     {
         /// <summary>
-        /// Exception log
+        /// Logger
         /// </summary>
         private static readonly ILog logger = LogManagerWrapper.GetLogger(typeof(SignatureHttpHeaderAuthStrategy));
 

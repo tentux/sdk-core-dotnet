@@ -5,7 +5,7 @@ namespace PayPal.Exception
     public class ConfigException : System.Exception
     {
         /// <summary>
-        /// Exception log
+        /// Logger
         /// </summary>
         private static readonly ILog logger = LogManagerWrapper.GetLogger(typeof(ConfigException));
 

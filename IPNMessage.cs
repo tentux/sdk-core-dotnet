@@ -13,13 +13,13 @@ namespace PayPal
     public class IPNMessage
     {
         private string ipnEndpoint = string.Empty;
-        private bool isIpnVerified = false;
+        private bool isIpnValidated = false;
         private ConfigManager configMgr = ConfigManager.Instance;
         private NameValueCollection nvcMap = new NameValueCollection();
         string ipnRequest = string.Empty;
       
         /// <summary>
-        /// Exception log
+        /// Logger
         /// </summary>
         private static readonly ILog logger = LogManagerWrapper.GetLogger(typeof(IPNMessage));
 
@@ -33,7 +33,6 @@ namespace PayPal
             List<string> items = new List<string>();
             foreach (string name in parameters)
             {
-
                 items.Add(string.Concat(name, "=", System.Web.HttpUtility.UrlEncode(parameters[name], Encoding.GetEncoding("windows-1252"))));
             }
             return string.Join("&", items.ToArray());
@@ -90,9 +89,9 @@ namespace PayPal
 
             if (strResponse.Equals("VERIFIED"))
             {
-                isIpnVerified = true;
+                isIpnValidated = true;
             }
-            return isIpnVerified;           
+            return isIpnValidated;           
         }
 
         /// <summary>
