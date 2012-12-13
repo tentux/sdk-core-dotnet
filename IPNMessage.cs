@@ -18,14 +18,13 @@ namespace PayPal
         private NameValueCollection nvcMap = new NameValueCollection();
         string ipnRequest = string.Empty;
       
-
         /// <summary>
         /// Exception log
         /// </summary>
         private static readonly ILog logger = LogManagerWrapper.GetLogger(typeof(IPNMessage));
 
         /// <summary>
-        ///  Constructs a QueryString
+        /// Constructs a query string
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
@@ -56,23 +55,36 @@ namespace PayPal
                 ipnRequest += "&cmd=_notify-validate";
                 Validate();
             }
-        }      
+        }
 
+        /// <summary>
+        /// IPNMessage constructor
+        /// </summary>
+        /// <param name="request"></param>
+        public IPNMessage(HttpRequest request) : this(request.Params)
+        {
+
+        }
+
+        /// <summary>
+        /// Returns the IPN request validation
+        /// </summary>
+        /// <returns></returns>
         public bool Validate()
         {
             ipnEndpoint = configMgr.GetProperty(BaseConstants.IPNEndpoint);
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(ipnEndpoint);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ipnEndpoint);
 
             //Set values for the request back
-            req.Method = "POST";
-            req.ContentType = "application/x-www-form-urlencoded";            
-            req.ContentLength = ipnRequest.Length;
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";            
+            request.ContentLength = ipnRequest.Length;
 
             //Send the request to PayPal and get the response
-            StreamWriter streamOut = new StreamWriter(req.GetRequestStream(), Encoding.GetEncoding("windows-1252"));
+            StreamWriter streamOut = new StreamWriter(request.GetRequestStream(), Encoding.GetEncoding("windows-1252"));
             streamOut.Write(ipnRequest);
             streamOut.Close();
-            StreamReader streamIn = new StreamReader(req.GetResponse().GetResponseStream());
+            StreamReader streamIn = new StreamReader(request.GetResponse().GetResponseStream());
             string strResponse = streamIn.ReadToEnd();
             streamIn.Close();
 
@@ -103,7 +115,7 @@ namespace PayPal
         {
             return this.nvcMap[ipnName];
         }
-
+        
         /// <summary>
         /// Gets the IPN request transaction type
         /// </summary>
