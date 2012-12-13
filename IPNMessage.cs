@@ -44,15 +44,22 @@ namespace PayPal
         /// <param name="nvc"></param>
         public IPNMessage(NameValueCollection nvc)
         {
-            if (nvc.HasKeys())
+            try
             {
-                foreach (string key in nvc.Keys)
+                if (nvc.HasKeys())
                 {
-                    nvcMap.Add(key, nvc[key]);
+                    foreach (string key in nvc.Keys)
+                    {
+                        nvcMap.Add(key, nvc[key]);
+                    }
+                    ipnRequest = ConstructQueryString(nvc);
+                    ipnRequest += "&cmd=_notify-validate";
+                    Validate();
                 }
-                ipnRequest = ConstructQueryString(nvc);
-                ipnRequest += "&cmd=_notify-validate";
-                Validate();
+            }
+            catch (System.Exception ex)
+            {
+                logger.Debug(this.GetType().Name + " : " + ex.Message);
             }
         }
 
@@ -60,36 +67,40 @@ namespace PayPal
         /// IPNMessage constructor
         /// </summary>
         /// <param name="request"></param>
-        public IPNMessage(HttpRequest request) : this(request.Params)
-        {
-
-        }
-
+        public IPNMessage(HttpRequest request) : this(request.Params) { }
+        
         /// <summary>
         /// Returns the IPN request validation
         /// </summary>
         /// <returns></returns>
         public bool Validate()
         {
-            ipnEndpoint = configMgr.GetProperty(BaseConstants.IPNEndpoint);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ipnEndpoint);
-
-            //Set values for the request back
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";            
-            request.ContentLength = ipnRequest.Length;
-
-            //Send the request to PayPal and get the response
-            StreamWriter streamOut = new StreamWriter(request.GetRequestStream(), Encoding.GetEncoding("windows-1252"));
-            streamOut.Write(ipnRequest);
-            streamOut.Close();
-            StreamReader streamIn = new StreamReader(request.GetResponse().GetResponseStream());
-            string strResponse = streamIn.ReadToEnd();
-            streamIn.Close();
-
-            if (strResponse.Equals("VERIFIED"))
+            try
             {
-                isIpnValidated = true;
+                ipnEndpoint = configMgr.GetProperty(BaseConstants.IPNEndpoint);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ipnEndpoint);
+
+                //Set values for the request back
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.ContentLength = ipnRequest.Length;
+
+                //Send the request to PayPal and get the response
+                StreamWriter streamOut = new StreamWriter(request.GetRequestStream(), Encoding.GetEncoding("windows-1252"));
+                streamOut.Write(ipnRequest);
+                streamOut.Close();
+                StreamReader streamIn = new StreamReader(request.GetResponse().GetResponseStream());
+                string strResponse = streamIn.ReadToEnd();
+                streamIn.Close();
+
+                if (strResponse.Equals("VERIFIED"))
+                {
+                    isIpnValidated = true;
+                }
+            }
+            catch(System.Exception ex)
+            {
+                logger.Debug(this.GetType().Name + " : " + ex.Message);
             }
             return isIpnValidated;           
         }
