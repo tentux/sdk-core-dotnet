@@ -12,10 +12,12 @@ namespace PayPal
 {
     public class IPNMessage
     {
-        private string IPNEndpoint = string.Empty;
-        private bool IsIPNVerified = false;
+        private string ipnEndpoint = string.Empty;
+        private bool isIpnVerified = false;
         private ConfigManager configMgr = ConfigManager.Instance;
-        private NameValueCollection ipnMap = new NameValueCollection();
+        private NameValueCollection nvcMap = new NameValueCollection();
+        string ipnRequest = string.Empty;
+      
 
         /// <summary>
         /// Exception log
@@ -23,7 +25,7 @@ namespace PayPal
         private static readonly ILog logger = LogManagerWrapper.GetLogger(typeof(IPNMessage));
 
         /// <summary>
-        /// Constructs a QueryString (string).
+        ///  Constructs a QueryString
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
@@ -32,7 +34,8 @@ namespace PayPal
             List<string> items = new List<string>();
             foreach (string name in parameters)
             {
-                items.Add(string.Concat(name, "=", System.Web.HttpUtility.UrlEncode(parameters[name])));
+
+                items.Add(string.Concat(name, "=", System.Web.HttpUtility.UrlEncode(parameters[name], Encoding.GetEncoding("windows-1252"))));
             }
             return string.Join("&", items.ToArray());
         }
@@ -47,89 +50,58 @@ namespace PayPal
             {
                 foreach (string key in nvc.Keys)
                 {
-                    ipnMap.Add(key, nvc[key]);
+                    nvcMap.Add(key, nvc[key]);
                 }
-
-                string ipnRequest = ConstructQueryString(nvc);
-
-                ProcessRequest(ipnRequest);
+                ipnRequest = ConstructQueryString(nvc);
+                ipnRequest += "&cmd=_notify-validate";
+                Validate();
             }
-        }
+        }      
 
-        /// <summary>
-        /// Processes request for IPN verification
-        /// </summary>
-        /// <param name="ipnRequest"></param>
-        public void ProcessRequest(string ipnRequest)
+        public bool Validate()
         {
-            IPNEndpoint = configMgr.GetProperty(BaseConstants.IPNEndpoint);
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(IPNEndpoint);
+            ipnEndpoint = configMgr.GetProperty(BaseConstants.IPNEndpoint);
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(ipnEndpoint);
 
             //Set values for the request back
             req.Method = "POST";
-            req.ContentType = "application/x-www-form-urlencoded";
-            ipnRequest += "&cmd=_notify-validate";
+            req.ContentType = "application/x-www-form-urlencoded";            
             req.ContentLength = ipnRequest.Length;
 
             //Send the request to PayPal and get the response
-            StreamWriter streamOut = new StreamWriter(req.GetRequestStream(), System.Text.Encoding.ASCII);
+            StreamWriter streamOut = new StreamWriter(req.GetRequestStream(), Encoding.GetEncoding("windows-1252"));
             streamOut.Write(ipnRequest);
             streamOut.Close();
             StreamReader streamIn = new StreamReader(req.GetResponse().GetResponseStream());
             string strResponse = streamIn.ReadToEnd();
             streamIn.Close();
 
-            if (strResponse == "VERIFIED")
+            if (strResponse.Equals("VERIFIED"))
             {
-                IsIPNVerified = true;
-                logger.Info("--IPN--VERIFIED--Start");
-                logger.Info(strResponse);
-                logger.Info("--IPN--VERIFIED--End");
+                isIpnVerified = true;
             }
-            else if (strResponse == "INVALID")
-            {
-                logger.Info("--IPN--INVALID--Start");
-                logger.Debug(strResponse);
-                logger.Info("--IPN--INVALID--End");
-            }
-            else
-            {
-                logger.Info("--IPN--Null--Or--Error--Start");
-                logger.Debug(strResponse);
-                logger.Info("--IPN--Null--Or--Error--End");
-            }
+            return isIpnVerified;           
         }
 
         /// <summary>
         /// Gets the IPN request NameValueCollection
         /// </summary>
-        public NameValueCollection IPNMap
+        public NameValueCollection IpnMap
         {
             get
             {
-                return ipnMap;
+                return nvcMap;
             }
         }
-
-        /// <summary>
-        /// Gets the IPN request verification status
-        /// </summary>
-        public bool IPNVerification
-        {
-            get
-            {
-                return IsIPNVerified;
-            }
-        }
-
+      
         /// <summary>
         /// Gets the IPN request parameter value for the given name
         /// </summary>
         /// <param name="ipnName"></param>
         /// <returns></returns>
-        public string IPNParameterValue(string ipnName)
+        public string IpnValue(string ipnName)
         {
-            return this.ipnMap[ipnName] != null ? this.ipnMap[ipnName] : null;
+            return this.nvcMap[ipnName];
         }
 
         /// <summary>
@@ -139,8 +111,8 @@ namespace PayPal
         {
             get
             {
-                return this.ipnMap["txn_type"] != null ? this.ipnMap["txn_type"] :
-                    (this.ipnMap["transaction_type"] != null ? this.ipnMap["transaction_type"] : null);
+                return this.nvcMap["txn_type"] != null ? this.nvcMap["txn_type"] :
+                    (this.nvcMap["transaction_type"] != null ? this.nvcMap["transaction_type"] : null);
             }
         }
     }
