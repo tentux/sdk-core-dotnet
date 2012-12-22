@@ -13,11 +13,10 @@ The PayPal Core SDK for .NET:
 *	The PayPal Core SDK is used to call the PayPal Platform API Web Service for the given payload and PayPal API profile settings.
 
 *	The PayPal Core SDK addresses the essential needs of the PayPal API caller:
- 	1. Frequent and up-to-date releases: The PayPal Core SDK is available on NuGet, which translates as immediate SDK refreshes upon updates to PayPal APIs.
- 	2. Simpler configuration: A single configuration file that lets you manage your API credentials (supports multiple credentials), connectivity details, and service endpoints.
- 	3. Optimized design: The PayPal Core SDK conforms to the Strategy Design Pattern (The Gang of Four Behavioral Pattern), whereby an algorithm's behavior can be selected at runtime.
- 	4. Error log: The PayPal Core SDK uses the log4net tool to log output statements to a text file to help locate the problem.
- 	5. Backward compatibility: The PayPal Core SDK is developed using .NET Framework 2.0 and should compile on later versions of the .NET Framework.
+ 	Frequent and up-to-date releases: The PayPal Core SDK is available on NuGet, which translates as immediate SDK refreshes upon updates to PayPal APIs.
+ 	Simpler configuration: A single configuration file that lets you manage your API credentials (supports multiple credentials), connectivity details, and service endpoints.
+ 	Error log: The PayPal Core SDK uses the log4net tool to log output statements to a text file to help locate the problem.
+ 	Backward compatibility: The PayPal Core SDK is developed using .NET Framework 2.0 and should compile on later versions of the .NET Framework.
  	
  
  Tools:
@@ -56,13 +55,13 @@ NuGet 2.2
 	If you decide to remove the library, NuGet removes files and reverses whatever changes it made in your project so that no clutter is left.
 
 
-Visual Studio 2005 and 2008 NuGet 2.2 Installation:
----------------------------------------------------
 NuGet - Integrating NuGet with Visual Studio 2005 and 2008:
+---------------------------------------------------
+
 
 Prerequisites:
 *	.NET Framework 4.0
-*	NuGet.exe
+*	NuGet 2.2
 
 *	Download NuGet.exe Command Line (free to download): http://nuget.codeplex.com/releases/view/58939
 
@@ -112,9 +111,9 @@ Prerequisites:
 	'C:\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\IDE\'
 
 	
-Visual Studio 2010 NuGet Package Manager Installation:
--------------------------------------------------
-*	Visual Studio 2010 or higher
+NuGet Package Manager Installation in Visual Studio 2010 and 2012:
+---------------------------------------------------------------
+*	Visual Studio 2010 and 2012
 	Go to Visual Studio 2010 Menu --> Tools
 	Select Extension Manager…
 	Enter NuGet in the search box and click Online Gallery
