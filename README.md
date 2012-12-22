@@ -38,11 +38,13 @@ The PayPal Core SDK for .NET:
 Optional [log4net 1.2.10 using NuGet Install]:
 ----------------------------------------------
 *	log4net 1.2.10
-	NuGet Install Arguments: install log4net -Version 1.2.10 -excludeversion -outputDirectory .\Packages
+	NuGet Install Arguments: 
+	install log4net -Version 1.2.10 -excludeversion -outputDirectory .\Packages
 
 *   Visual Studio 2010 - Go to Menu --> Tools --> Library Package Manager --> Package Manager Console
 	Select NuGet official package source from the Package source dropdown box in the Package Manager Console
-	Enter at PM> Install-Package log4net -Version 1.2.10
+	Enter at PM> 
+	Install-Package log4net -Version 1.2.10
 
 
 NuGet 2.2
