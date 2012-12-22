@@ -21,6 +21,9 @@ The PayPal Core SDK for .NET:
  
  Tools:
 -------
+*	log4net 1.2.10 is included in sdk-core-dotnet\lib folder
+	Optional [To download and install log4net 1.2.10 using NuGet]
+	
 *	log4net is a tool to help the programmer output log statements to a variety of output targets. 
     In case of problems with an application, it is helpful to enable logging so that the problem can be located. 
     With log4net it is possible to enable logging at runtime without modifying the application binary. 
@@ -28,19 +31,18 @@ The PayPal Core SDK for .NET:
     It follows that the speed of logging (or rather not logging) is crucial. 
     At the same time, log output can be so voluminous that it quickly becomes overwhelming. 
     One of the distinctive features of log4net is the notion of hierarchical loggers. 
-    Using these loggers it is possible to selectively control which log statements are output at arbitrary granularity. 
+    Using these loggers it is possible to selectively control which log statements are output at arbitrary granularity.
+
 	
-*	log4net 1.2.10 is included in sdk-core-dotnet\lib folder
-	Optional [To download and install log4net 1.2.10 using NuGet]
-
-
-Optional [log4net 1.2.10 using NuGet Install]:
+Optional [log4net 1.2.10 using NuGet]:
 ----------------------------------------------
 *	log4net 1.2.10
+	Visual Studio 2005 and 2008
 	NuGet Install Arguments: 
 	install log4net -Version 1.2.10 -excludeversion -outputDirectory .\Packages
 
-*   Visual Studio 2010 - Go to Menu --> Tools --> Library Package Manager --> Package Manager Console
+*   Visual Studio 2010 and 2012:
+    Go to Menu --> Tools --> Library Package Manager --> Package Manager Console
 	Select NuGet official package source from the Package source dropdown box in the Package Manager Console
 	Enter at PM> 
 	Install-Package log4net -Version 1.2.10
@@ -57,7 +59,6 @@ NuGet 2.2
 
 NuGet - Integrating NuGet with Visual Studio 2005 and 2008:
 ---------------------------------------------------
-
 
 Prerequisites:
 *	.NET Framework 4.0

@@ -107,7 +107,7 @@ namespace PayPal
         // Credential Certificate Key
         public const string CREDENTIAL_CERTKEY_SUFFIX = "privateKeyPassword";
 
-        //IPN endpoint property name
+        // IPN endpoint property name
         public const string IPNEndpoint = "IPNEndpoint";
 
         public static class ErrorMessages
@@ -117,9 +117,9 @@ namespace PayPal
             public const string err_endpoint = "Endpoint cannot be empty.";
             public const string err_username = "API username cannot be empty";
             public const string err_passeword = "API password cannot be empty.";
-            public const string err_signature = "API signature cannot be empty";
-            public const string err_appid = "Application Id cannot be empty";
-            public const string err_certificate = "Certificate cannot be empty";
+            public const string err_signature = "API signature cannot be empty.";
+            public const string err_appid = "Application Id cannot be empty.";
+            public const string err_certificate = "Certificate cannot be empty.";
             public const string err_privatekeypassword = "Private Key password cannot be null or empty.";
         }
     }
