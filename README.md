@@ -1,12 +1,13 @@
-This repository contains the PayPal Core SDK .NET class library application and its NUnit Test application.
+This repository contains the PayPal Core SDK C#.NET Class Library Application and the UnitTest C#.NET Class Library NUnit Test Application.
 
 
 Prerequisites
 -------------
 *	Visual Studio 2005 or higher
 *	NUnit 2.6.2
+*	log4net 1.2.10
 *   NuGet.exe 2.2
-*	.NET Framework 4.0]
+*	.NET Framework 4.0
 
 
 The PayPal Core SDK for .NET
