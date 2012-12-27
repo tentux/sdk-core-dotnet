@@ -65,9 +65,9 @@
     <None Include="Resources\sdk-cert.p12" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PayPal_Core_SDK.csproj">
+    <ProjectReference Include="..\PayPalCoreSDK.csproj">
       <Project>{1F5FF00B-CE0F-40B8-9BC4-7B5ED2087266}</Project>
-      <Name>PayPal_Core_SDK</Name>
+      <Name>PayPalCoreSDK</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
