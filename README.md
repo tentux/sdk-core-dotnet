@@ -1,4 +1,4 @@
-This repository contains the PayPal Core SDK C#.NET Class Library Application and the UnitTest C#.NET Class Library NUnit Test Application.
+The repository contains the PayPal Core SDK C#.NET Class Library Application and the UnitTest C#.NET Class Library NUnit Test Application.
 
 
 Prerequisites
@@ -6,7 +6,7 @@ Prerequisites
 *	Visual Studio 2005 or higher
 *	NUnit 2.6.2
 *	log4net 1.2.10
-*   NuGet.exe 2.2
+*   NuGet 2.2
 *	.NET Framework 4.0
 
 
@@ -74,7 +74,7 @@ Enter at PM> Install-Package log4net -Version 1.2.10
 On enter key-press, the output window should display:
 
 Successfully installed 'log4net 1.2.10'.
-Successfully added 'log4net 1.2.10' to PayPal_Core_SDK.
+Successfully added 'log4net 1.2.10' to PayPalCoreSDK.
 
 After successful installation, note that the new references get added automatically
 
