@@ -173,3 +173,12 @@ The typical location for Visual Studio 2005:
  'C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\IDE\'
 The typical Installation location for Visual Studio 2008:
 'C:\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\IDE\'
+
+
+Help
+----
+*	LICENSE.txt - PayPal, Inc. SDK License
+
+*	Installing NuGet in Visual Studio 2010 and 2012.pdf - Guide to Install NuGet in Visual Studio 2010 and 2012
+
+*	Integrating NuGet with Visual Studio 2005 and 2008.pdf - Guide to Integrate NuGet with Visual Studio 2005 and 2008
