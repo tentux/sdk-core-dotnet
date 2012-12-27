@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("PayPal Core SDK UnitTest for .NET")]
 [assembly: AssemblyCompany("eBay, Inc.")]
-[assembly: AssemblyProduct("PayPal_Core_SDK_UnitTest")]
+[assembly: AssemblyProduct("UnitTest")]
 [assembly: AssemblyCopyright("Copyright © eBay, Inc. 2012")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
