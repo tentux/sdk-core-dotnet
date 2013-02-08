@@ -12,12 +12,22 @@ namespace PayPal
 {
     public class IPNMessage
     {
-        private string ipnEndpoint = string.Empty;
-        private bool isIpnValidated = false;
-        private ConfigManager configMgr = ConfigManager.Instance;
+        
+        /// <summary>
+        /// Result from ipn validation call
+        /// </summary>
+        private bool? ipnValidationResult;        
+        /// <summary>
+        /// Name value collection containing incoming IPN message key / value pair
+        /// </summary>
         private NameValueCollection nvcMap = new NameValueCollection();
-        string ipnRequest = string.Empty;
-      
+        /// <summary>
+        /// Incoming IPN message converted to query string format. Used when validating the IPN message.
+        /// </summary>
+        private string ipnRequest = string.Empty;
+
+        private ConfigManager configMgr = ConfigManager.Instance;
+
         /// <summary>
         /// Logger
         /// </summary>
@@ -74,34 +84,48 @@ namespace PayPal
         /// <returns></returns>
         public bool Validate()
         {
-            try
+            /// If ipn has been previously validated, do not repeat the validation process.
+            if (this.ipnValidationResult != null)
             {
-                ipnEndpoint = configMgr.GetProperty(BaseConstants.IPNEndpoint);
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ipnEndpoint);
-
-                //Set values for the request back
-                request.Method = "POST";
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.ContentLength = ipnRequest.Length;
-
-                //Send the request to PayPal and get the response
-                StreamWriter streamOut = new StreamWriter(request.GetRequestStream(), Encoding.GetEncoding("windows-1252"));
-                streamOut.Write(ipnRequest);
-                streamOut.Close();
-                StreamReader streamIn = new StreamReader(request.GetResponse().GetResponseStream());
-                string strResponse = streamIn.ReadToEnd();
-                streamIn.Close();
-
-                if (strResponse.Equals("VERIFIED"))
+                return this.ipnValidationResult.Value;
+            }
+            else
+            {
+                try
                 {
-                    isIpnValidated = true;
+                    string ipnEndpoint = configMgr.GetProperty(BaseConstants.IPNEndpoint);
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ipnEndpoint);
+
+                    //Set values for the request back
+                    request.Method = "POST";
+                    request.ContentType = "application/x-www-form-urlencoded";
+                    request.ContentLength = ipnRequest.Length;
+
+                    //Send the request to PayPal and get the response
+                    StreamWriter streamOut = new StreamWriter(request.GetRequestStream(), Encoding.GetEncoding("windows-1252"));
+                    streamOut.Write(ipnRequest);
+                    streamOut.Close();
+                    StreamReader streamIn = new StreamReader(request.GetResponse().GetResponseStream());
+                    string strResponse = streamIn.ReadToEnd();
+                    streamIn.Close();
+
+                    if (strResponse.Equals("VERIFIED"))
+                    {
+                        this.ipnValidationResult = true;
+                    }
+                    else
+                    {
+                        logger.Info("IPN validation failed. Got response: " + strResponse);
+                        this.ipnValidationResult = false;
+                    }
                 }
+                catch (System.Exception ex)
+                {
+                    logger.Info(this.GetType().Name + " : " + ex.Message);
+
+                }
+                return this.ipnValidationResult.HasValue ? this.ipnValidationResult.Value : false;
             }
-            catch(System.Exception ex)
-            {
-                logger.Debug(this.GetType().Name + " : " + ex.Message);
-            }
-            return isIpnValidated;           
         }
 
         /// <summary>
