@@ -54,7 +54,6 @@ namespace PayPal
                     }
                     ipnRequest = ConstructQueryString(nvc);
                     ipnRequest += "&cmd=_notify-validate";
-                    Validate();
                 }
             }
             catch (System.Exception ex)
