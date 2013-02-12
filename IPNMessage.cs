@@ -38,36 +38,23 @@ namespace PayPal
         /// </summary>
         private static readonly ILog logger = LogManagerWrapper.GetLogger(typeof(IPNMessage));
 
-        /// <summary>
-        /// Constructs a query string
-        /// </summary>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        public string ConstructQueryString(NameValueCollection parameters)
-        {
-            List<string> items = new List<string>();
-            foreach (string name in parameters)
-            {
-                items.Add(string.Concat(name, "=", System.Web.HttpUtility.UrlEncode(parameters[name], Encoding.GetEncoding(IPNEncoding))));
-            }
-            return string.Join("&", items.ToArray());
-        }
-
+        
         /// <summary>
         /// Initializing nvcMap and constructing query string
         /// </summary>
         /// <param name="nvc"></param>
         private void initialize(NameValueCollection nvc){
+            List<string> items = new List<string>();
         try
             {
                 if (nvc.HasKeys())
                 {
                     foreach (string key in nvc.Keys)
                     {
+                        items.Add(string.Concat(key, "=", System.Web.HttpUtility.UrlEncode(nvc[key], Encoding.GetEncoding(IPNEncoding))));
                         nvcMap.Add(key, nvc[key]);
                     }
-                    ipnRequest = ConstructQueryString(nvc);
-                    ipnRequest += "&cmd=_notify-validate";
+                    ipnRequest = string.Join("&", items.ToArray())+"&cmd=_notify-validate";
                 }
             }
             catch (System.Exception ex)
@@ -81,6 +68,7 @@ namespace PayPal
         /// IPNMessage constructor
         /// </summary>
         /// <param name="nvc"></param>
+        [Obsolete("use IPNMessage(byte[] parameters) instead")]
         public IPNMessage(NameValueCollection nvc)
         {
             this.initialize(nvc);
@@ -88,22 +76,12 @@ namespace PayPal
         /// <summary>
         /// IPNMessage constructor
         /// </summary>
-        /// <param name="parameters"></param>
+        /// <param name="parameters">byte array read from request</param>
         public IPNMessage(byte[] parameters)
         {
-            string ipnMsg = Encoding.GetEncoding("windows-1252").GetString(parameters);
-
-            NameValueCollection nvc = HttpUtility.ParseQueryString(ipnMsg, Encoding.GetEncoding(IPNEncoding));
-            this.initialize(nvc);
+            this.initialize(HttpUtility.ParseQueryString(Encoding.GetEncoding(IPNEncoding).GetString(parameters), Encoding.GetEncoding(IPNEncoding)));
         }
 
-        /// <summary>
-        /// IPNMessage constructor
-        /// </summary>
-        /// <param name="request"></param>
-        /// it wont work for UTF-8 values
-      ///  public IPNMessage(HttpRequest request) : this(request.Params) { }
-        
         /// <summary>
         /// Returns the IPN request validation
         /// </summary>
