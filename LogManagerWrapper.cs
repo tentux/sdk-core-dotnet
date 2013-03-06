@@ -1,4 +1,7 @@
 using System;
+// NuGet Install
+// install PayPalCoreSDK -excludeversion -outputDirectory .\Packages
+// 2.0
 using log4net;
 
 namespace PayPal

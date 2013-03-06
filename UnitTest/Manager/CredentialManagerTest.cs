@@ -27,6 +27,7 @@ namespace PayPal.UnitTest.Manager
             Assert.AreEqual(UnitTestConstants.ApplicationID, signCredential.ApplicationID);            
         }
 
+        // Check UnitTestConstants CertificatePath
         [Test]
         public void LoadCertificateCredential()
         {

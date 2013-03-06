@@ -10,7 +10,7 @@ namespace PayPal.UnitTest
     {
         DefaultSOAPAPICallHandler defaultSOAPHandler;
 
-        //[Test] //To Run this Test Case configure App.config <add name="endpoint" value="https://api-3t.sandbox.paypal.com/2.0"/>
+        // [Test] // <!--SOAP--> To Run this Test Case configure App.config <add name="endpoint" value="https://api-3t.sandbox.paypal.com/2.0"/>
         [Ignore] 
 	    public void EndPoint() 
         {

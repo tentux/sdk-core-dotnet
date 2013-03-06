@@ -12,15 +12,16 @@ namespace PayPal
 {
     public class IPNMessage
     {
-        
         /// <summary>
         /// Result from ipn validation call
         /// </summary>
-        private bool? ipnValidationResult;        
+        private bool? ipnValidationResult;
+   
         /// <summary>
         /// Name value collection containing incoming IPN message key / value pair
         /// </summary>
         private NameValueCollection nvcMap = new NameValueCollection();
+
         /// <summary>
         /// Incoming IPN message converted to query string format. Used when validating the IPN message.
         /// </summary>
@@ -29,8 +30,11 @@ namespace PayPal
         /// <summary>
         /// Encoding format for IPN messages
         /// </summary>
-        private const string IPNEncoding = "windows-1252";
+        private const string ipnEncoding = "windows-1252";
 
+        /// <summary>
+        /// ConfigManager instance
+        /// </summary>
         private ConfigManager configMgr = ConfigManager.Instance;
 
         /// <summary>
@@ -43,15 +47,16 @@ namespace PayPal
         /// Initializing nvcMap and constructing query string
         /// </summary>
         /// <param name="nvc"></param>
-        private void initialize(NameValueCollection nvc){
+        private void Initialize(NameValueCollection nvc)
+        {
             List<string> items = new List<string>();
-        try
+            try
             {
                 if (nvc.HasKeys())
                 {
                     foreach (string key in nvc.Keys)
                     {
-                        items.Add(string.Concat(key, "=", System.Web.HttpUtility.UrlEncode(nvc[key], Encoding.GetEncoding(IPNEncoding))));
+                        items.Add(string.Concat(key, "=", System.Web.HttpUtility.UrlEncode(nvc[key], Encoding.GetEncoding(ipnEncoding))));
                         nvcMap.Add(key, nvc[key]);
                     }
                     ipnRequest = string.Join("&", items.ToArray())+"&cmd=_notify-validate";
@@ -63,7 +68,6 @@ namespace PayPal
             }
         }
 
-
         /// <summary>
         /// IPNMessage constructor
         /// </summary>
@@ -71,15 +75,16 @@ namespace PayPal
         [Obsolete("use IPNMessage(byte[] parameters) instead")]
         public IPNMessage(NameValueCollection nvc)
         {
-            this.initialize(nvc);
+            this.Initialize(nvc);
         }
+
         /// <summary>
         /// IPNMessage constructor
         /// </summary>
         /// <param name="parameters">byte array read from request</param>
         public IPNMessage(byte[] parameters)
         {
-            this.initialize(HttpUtility.ParseQueryString(Encoding.GetEncoding(IPNEncoding).GetString(parameters), Encoding.GetEncoding(IPNEncoding)));
+            this.Initialize(HttpUtility.ParseQueryString(Encoding.GetEncoding(ipnEncoding).GetString(parameters), Encoding.GetEncoding(ipnEncoding)));
         }
 
         /// <summary>
@@ -106,7 +111,7 @@ namespace PayPal
                     request.ContentLength = ipnRequest.Length;
 
                     //Send the request to PayPal and get the response
-                    StreamWriter streamOut = new StreamWriter(request.GetRequestStream(), Encoding.GetEncoding(IPNEncoding));
+                    StreamWriter streamOut = new StreamWriter(request.GetRequestStream(), Encoding.GetEncoding(ipnEncoding));
                     streamOut.Write(ipnRequest);
                     streamOut.Close();
                     StreamReader streamIn = new StreamReader(request.GetResponse().GetResponseStream());
