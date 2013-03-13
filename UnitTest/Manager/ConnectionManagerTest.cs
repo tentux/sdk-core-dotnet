@@ -18,7 +18,7 @@ namespace PayPal.UnitTest.Manager
         {
             connectionMngr = ConnectionManager.Instance;
             ConfigManager configMngr = ConfigManager.Instance;
-            httpRequest = connectionMngr.GetConnection("http://paypal.com/");
+            httpRequest = connectionMngr.GetConnection(ConfigManager.Instance.GetProperties(), "http://paypal.com/");
             Assert.IsNotNull(httpRequest);
             Assert.AreEqual("http://paypal.com/", httpRequest.RequestUri.AbsoluteUri);
             Assert.AreEqual(configMngr.GetProperty("connectionTimeout"), httpRequest.Timeout.ToString());
@@ -28,7 +28,7 @@ namespace PayPal.UnitTest.Manager
         public void CreateNewConnectionWithInvalidURL()
         {
             connectionMngr = ConnectionManager.Instance;
-            httpRequest = connectionMngr.GetConnection("Not a url");
+            httpRequest = connectionMngr.GetConnection(ConfigManager.Instance.GetProperties(), "Not a url");
         }
     }
 }

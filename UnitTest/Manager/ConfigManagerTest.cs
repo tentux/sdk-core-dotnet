@@ -13,15 +13,6 @@ namespace PayPal.UnitTest.Manager
         ConfigManager configMngr;
 
         [Test]
-        public void RetrieveAccountConfigByIndex()
-        {
-            configMngr = ConfigManager.Instance;
-            Account acc = configMngr.GetAccount(0);
-            Assert.IsNotNull(acc);
-            Assert.AreEqual(UnitTestConstants.APIUserName, acc.APIUsername);
-        }
-
-        [Test]
         public void RetrieveAccountConfigByUsername()
         {
             configMngr = ConfigManager.Instance;

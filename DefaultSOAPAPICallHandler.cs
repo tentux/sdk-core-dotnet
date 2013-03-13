@@ -52,6 +52,11 @@ namespace PayPal
         /// Namespace attributes as String
         /// </summary>
         private string nmespceAttributes;
+
+        /// <summary>
+        /// SDK Configuration
+        /// </summary>
+        private Dictionary<string, string> config;
         
         /// <summary>
         /// Gets and sets the Header Element
@@ -89,12 +94,14 @@ namespace PayPal
 	    /// <param name="rawPayLoad"></param>
 	    /// <param name="namespaces"></param>
 	    /// <param name="headerString"></param>
-        public DefaultSOAPAPICallHandler(string rawPayLoad, string attributesNamespace, 
+        /// <param name="config"></param>
+        public DefaultSOAPAPICallHandler(Dictionary<string, string> config, string rawPayLoad, string attributesNamespace, 
             string headerString) : base()
         {		    
 		    this.rawPayLoad = rawPayLoad;
             this.nmespceAttributes = attributesNamespace;
 		    this.headElement = headerString;
+            this.config = (config == null) ? ConfigManager.Instance.GetProperties() : config;
 	    }
 
         //Returns headers for HTTP call
@@ -127,7 +134,7 @@ namespace PayPal
         /// <returns></returns>
 	    public string GetEndPoint() 
         {
-		    return ConfigManager.Instance.GetProperty(BaseConstants.END_POINT);
+		    return config[BaseConstants.END_POINT];
 	    }
 
 

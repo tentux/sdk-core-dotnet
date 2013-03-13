@@ -18,15 +18,15 @@ namespace PayPal.UnitTest.SOAP
 
         public MerchantAPICallPreHandlerTest()
         {
-            defaultSoapHandler = new DefaultSOAPAPICallHandler("<Request>test</Request>", null, null);
+            defaultSoapHandler = new DefaultSOAPAPICallHandler(ConfigManager.Instance.GetProperties(), "<Request>test</Request>", null, null);
             credentialMngr = CredentialManager.Instance;
         }
 
         [Test]
         public void GetHeaderMapSignature()
         {
-            credential = credentialMngr.GetCredentials(UnitTestConstants.APIUserName);
-            soapHandler = new MerchantAPICallPreHandler(defaultSoapHandler, credential);
+            credential = credentialMngr.GetCredentials(ConfigManager.Instance.GetProperties(), UnitTestConstants.APIUserName);
+            soapHandler = new MerchantAPICallPreHandler(ConfigManager.Instance.GetProperties(), defaultSoapHandler, credential);
             Dictionary<String, String> headers = soapHandler.GetHeaderMap();
             Assert.IsNotNull(headers);
             Assert.IsTrue(headers.Count > 0);
@@ -40,8 +40,8 @@ namespace PayPal.UnitTest.SOAP
         [Test]
         public void GetHeaderMapCertificate()
         {
-            credential = credentialMngr.GetCredentials(UnitTestConstants.CertificateAPIUserName);
-            soapHandler = new MerchantAPICallPreHandler(defaultSoapHandler, credential);
+            credential = credentialMngr.GetCredentials(ConfigManager.Instance.GetProperties(), UnitTestConstants.CertificateAPIUserName);
+            soapHandler = new MerchantAPICallPreHandler(ConfigManager.Instance.GetProperties(), defaultSoapHandler, credential);
             Dictionary<String, String> headers = soapHandler.GetHeaderMap();
             Assert.IsNotNull(headers);
             Assert.IsTrue(headers.Count > 0);
@@ -55,8 +55,8 @@ namespace PayPal.UnitTest.SOAP
         [Test]
         public void GetPayLoadSignature()
         {
-            credential = credentialMngr.GetCredentials(UnitTestConstants.APIUserName);
-            soapHandler = new MerchantAPICallPreHandler(defaultSoapHandler, credential);
+            credential = credentialMngr.GetCredentials(ConfigManager.Instance.GetProperties(), UnitTestConstants.APIUserName);
+            soapHandler = new MerchantAPICallPreHandler(ConfigManager.Instance.GetProperties(), defaultSoapHandler, credential);
             string payload = soapHandler.GetPayLoad();
             XmlDocument xmlDoc = GetXmlDocument(payload);
             XmlNodeList xmlNodeListUsername = xmlDoc.GetElementsByTagName("Username");
@@ -76,8 +76,8 @@ namespace PayPal.UnitTest.SOAP
         [Test]
         public void GetPayLoadForCertificate()
         {
-            credential = credentialMngr.GetCredentials(UnitTestConstants.CertificateAPIUserName);
-            soapHandler = new MerchantAPICallPreHandler(defaultSoapHandler, credential);
+            credential = credentialMngr.GetCredentials(ConfigManager.Instance.GetProperties(), UnitTestConstants.CertificateAPIUserName);
+            soapHandler = new MerchantAPICallPreHandler(ConfigManager.Instance.GetProperties(), defaultSoapHandler, credential);
             string payload = soapHandler.GetPayLoad();
             XmlDocument xmlDoc = GetXmlDocument(payload);
             XmlNodeList xmlNodeListUsername = xmlDoc.GetElementsByTagName("Username");
@@ -94,8 +94,8 @@ namespace PayPal.UnitTest.SOAP
         [Test]
         public void SDKName()
         {
-            credential = credentialMngr.GetCredentials(UnitTestConstants.CertificateAPIUserName);
-            MerchantAPICallPreHandler soapHandler = new MerchantAPICallPreHandler(defaultSoapHandler, credential);
+            credential = credentialMngr.GetCredentials(ConfigManager.Instance.GetProperties(), UnitTestConstants.CertificateAPIUserName);
+            MerchantAPICallPreHandler soapHandler = new MerchantAPICallPreHandler(ConfigManager.Instance.GetProperties(), defaultSoapHandler, credential);
             soapHandler.SDKName = "testsdk";
             Assert.AreEqual("testsdk", soapHandler.SDKName);
         }
@@ -103,8 +103,8 @@ namespace PayPal.UnitTest.SOAP
         [Test]
         public void SDKVersion()
         {
-            credential = credentialMngr.GetCredentials(UnitTestConstants.CertificateAPIUserName);
-            MerchantAPICallPreHandler soapHandler = new MerchantAPICallPreHandler(defaultSoapHandler, credential);
+            credential = credentialMngr.GetCredentials(ConfigManager.Instance.GetProperties(), UnitTestConstants.CertificateAPIUserName);
+            MerchantAPICallPreHandler soapHandler = new MerchantAPICallPreHandler(ConfigManager.Instance.GetProperties(), defaultSoapHandler, credential);
             soapHandler.SDKVersion = "1.0.0";
             Assert.AreEqual("1.0.0", soapHandler.SDKVersion);
         }
@@ -112,8 +112,8 @@ namespace PayPal.UnitTest.SOAP
         [Test]
         public void GetEndPoint()
         {
-            credential = credentialMngr.GetCredentials(UnitTestConstants.CertificateAPIUserName);
-            MerchantAPICallPreHandler soapHandler = new MerchantAPICallPreHandler(defaultSoapHandler, credential);
+            credential = credentialMngr.GetCredentials(ConfigManager.Instance.GetProperties(), UnitTestConstants.CertificateAPIUserName);
+            MerchantAPICallPreHandler soapHandler = new MerchantAPICallPreHandler(ConfigManager.Instance.GetProperties(), defaultSoapHandler, credential);
             string endpoint = soapHandler.GetEndPoint();
             Assert.AreEqual(UnitTestConstants.APIEndpointNVP, endpoint);
         }      

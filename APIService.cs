@@ -26,6 +26,8 @@ namespace PayPal
         /// </summary>
         private X509Certificate x509;
 
+        private Dictionary<string, string> config;
+
         /// <summary>
         /// Logger
         /// </summary>
@@ -37,6 +39,11 @@ namespace PayPal
                                                   HttpStatusCode.InternalServerError,
                                                   HttpStatusCode.ServiceUnavailable,
                                                 });
+
+        public APIService(Dictionary<string, string> config)
+        {
+            this.config = config;
+        }
         /// <summary>
         /// Makes a request to API service
         /// </summary>
@@ -51,7 +58,7 @@ namespace PayPal
             ConfigManager configMngr = ConfigManager.Instance;
             // Constructing HttpWebRequest object                
             ConnectionManager connMngr = ConnectionManager.Instance;
-            HttpWebRequest httpRequest = connMngr.GetConnection(uri);
+            HttpWebRequest httpRequest = connMngr.GetConnection(this.config, uri);
             httpRequest.Method = RequestMethod;
             foreach (KeyValuePair<string, string> header in headers)
             {

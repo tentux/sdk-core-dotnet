@@ -22,7 +22,7 @@ namespace PayPal.Manager
         }
 
         [ConfigurationProperty("settings", IsRequired = true)]
-        private NameValueConfigurationCollection Settings
+        internal NameValueConfigurationCollection Settings
         {
             get { return (NameValueConfigurationCollection)this["settings"]; }
         }
@@ -116,6 +116,7 @@ namespace PayPal.Manager
         public string APIUsername
         {
             get { return (string)this[apiUsername]; }
+            set { this[apiUsername] = value; }
         }
 
         /// <summary>
@@ -125,6 +126,7 @@ namespace PayPal.Manager
         public string APIPassword
         {
             get { return (string)this[apiPassword]; }
+            set { this[apiPassword] = value; }
         }
 
         /// <summary>
@@ -134,6 +136,7 @@ namespace PayPal.Manager
         public string ApplicationId
         {
             get { return (string)this[applicationId]; }
+            set { this[applicationId] = value; }
         }
 
         /// <summary>
@@ -143,6 +146,7 @@ namespace PayPal.Manager
         public string APISignature
         {
             get { return (string)this[apiSignature]; }
+            set { this[apiSignature] = value; }
         }
 
         /// <summary>
@@ -152,6 +156,7 @@ namespace PayPal.Manager
         public string APICertificate
         {
             get { return (string)this[apiCertificate]; }
+            set { this[apiCertificate] = value; }
         }
 
         /// <summary>
@@ -161,6 +166,7 @@ namespace PayPal.Manager
         public string PrivateKeyPassword
         {
             get { return (string)this[privateKeyPassword]; }
+            set { this[privateKeyPassword] = value; }
         }
       
         /// <summary>
@@ -170,6 +176,7 @@ namespace PayPal.Manager
         public string SignatureSubject
         {
             get { return (string)this[signSubject]; }
+            set { this[signSubject] = value; }
         }
 
         /// <summary>
@@ -179,6 +186,7 @@ namespace PayPal.Manager
         public string CertificateSubject
         {
             get { return (string)this[certifySubject]; }
+            set { this[certifySubject] = value; }
         } 
     }   
 }

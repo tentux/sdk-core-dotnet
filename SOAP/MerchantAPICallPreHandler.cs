@@ -61,12 +61,19 @@ namespace PayPal.SOAP
         private string prtName;
 
         /// <summary>
+        /// SDK Configuration
+        /// </summary>
+        private Dictionary<string, string> config;
+
+        /// <summary>
         /// Private constructor
         /// </summary>
         /// <param name="apiCallHandler"></param>
-        private MerchantAPICallPreHandler(IAPICallPreHandler apiCallHandler) : base()
+        private MerchantAPICallPreHandler(IAPICallPreHandler apiCallHandler, Dictionary<string, string> config)
+            : base()
         {
             this.apiCallHandler = apiCallHandler;
+            this.config = (config == null) ? ConfigManager.Instance.GetProperties() : config;
         }  
 
         /// <summary>
@@ -76,7 +83,7 @@ namespace PayPal.SOAP
         /// <param name="apiUserName"></param>
         /// <param name="accessToken"></param>
         /// <param name="tokenSecret"></param>
-	    public MerchantAPICallPreHandler(IAPICallPreHandler apiCallHandler, string apiUserName, string accessToken, string tokenSecret) : this(apiCallHandler)
+	    public MerchantAPICallPreHandler(Dictionary<string, string> config, IAPICallPreHandler apiCallHandler, string apiUserName, string accessToken, string tokenSecret) : this(apiCallHandler, config)
 		{
             try
             {
@@ -96,7 +103,7 @@ namespace PayPal.SOAP
 	    /// </summary>
 	    /// <param name="apiCallHandler"></param>
 	    /// <param name="credential"></param>
-	    public MerchantAPICallPreHandler(IAPICallPreHandler apiCallHandler, ICredential credential) : this(apiCallHandler)
+        public MerchantAPICallPreHandler(Dictionary<string, string> config, IAPICallPreHandler apiCallHandler, ICredential credential) : this(apiCallHandler, config)
         {	    
 		    if (credential == null) 
             {
@@ -222,11 +229,11 @@ namespace PayPal.SOAP
         /// <returns></returns>
 	    public string GetEndPoint() 
         {
-            if (PortName == null || string.IsNullOrEmpty(ConfigManager.Instance.GetProperty(PortName)))
+            if (PortName == null || string.IsNullOrEmpty(this.config[PortName]))
             {
                 return apiCallHandler.GetEndPoint();
             }
-            return ConfigManager.Instance.GetProperty(PortName);
+            return config[PortName];
 	    }
         
         /// <summary>
@@ -248,7 +255,7 @@ namespace PayPal.SOAP
             try
             {                
                 CredentialManager credentialMngr = CredentialManager.Instance;
-                returnCredential = credentialMngr.GetCredentials(apiUserName);
+                returnCredential = credentialMngr.GetCredentials(this.config, apiUserName);
 
                 if (!string.IsNullOrEmpty(accessToken))
                 {

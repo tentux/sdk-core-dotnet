@@ -64,17 +64,24 @@ namespace PayPal.NVP
         /// </summary>
         private string prtName;
 
-	    /// <summary>
+        /// <summary>
+        /// SDK Configuration
+        /// </summary>
+        private Dictionary<string, string> config;
+
+        /// <summary>
 	    /// Private constructor
 	    /// </summary>
 	    /// <param name="rawPayLoad"></param>
 	    /// <param name="serviceName"></param>
 	    /// <param name="method"></param>
-	    private PlatformAPICallPreHandler(string rawPayLoad, string serviceName,	string method) : base()
+        private PlatformAPICallPreHandler(string rawPayLoad, string serviceName, string method, Dictionary<string, string> config)
+            : base()
         {
             this.rawPayLoad = rawPayLoad;
 		    this.serviceName = serviceName;
 		    this.method = method;
+            this.config = (config == null) ? ConfigManager.Instance.GetProperties() : config;
 	    }
 
         /// <summary>
@@ -86,7 +93,9 @@ namespace PayPal.NVP
         /// <param name="apiUsername"></param>
         /// <param name="accessToken"></param>
         /// <param name="tokenSecret"></param>
-	    public PlatformAPICallPreHandler(string rawPayLoad, string serviceName, string method, string apiUsername, string accessToken, string tokenSecret)  : this(rawPayLoad, serviceName, method)
+	    public PlatformAPICallPreHandler(Dictionary<string, string> config, string rawPayLoad, string serviceName, string method,
+            string apiUsername, string accessToken, string tokenSecret)
+            : this(rawPayLoad, serviceName, method, config)
         {
             try
             {
@@ -108,7 +117,9 @@ namespace PayPal.NVP
 	    /// <param name="serviceName"></param>
 	    /// <param name="method"></param>
 	    /// <param name="credential"></param>
-	    public PlatformAPICallPreHandler(string rawPayLoad, string serviceName,string method, ICredential credential) : this(rawPayLoad, serviceName, method)
+	    public PlatformAPICallPreHandler(Dictionary<string, string> config, string rawPayLoad, string serviceName,string method,
+            ICredential credential)
+            : this(rawPayLoad, serviceName, method, config)
         {  		
 		    if (credential == null) 
             {
@@ -211,11 +222,11 @@ namespace PayPal.NVP
         /// <returns></returns>
 	    public string GetEndPoint()
         {
-            if (PortName == null || string.IsNullOrEmpty(ConfigManager.Instance.GetProperty(PortName)))
+            if (PortName == null || string.IsNullOrEmpty(config[PortName]))
             {
-                return ConfigManager.Instance.GetProperty(BaseConstants.END_POINT) + serviceName + "/" + method;
+                return config[BaseConstants.END_POINT] + serviceName + "/" + method;
             }
-            return ConfigManager.Instance.GetProperty(PortName) + serviceName + "/" + method;
+            return config[PortName] + serviceName + "/" + method;
         }
 
         /// <summary>
@@ -238,7 +249,7 @@ namespace PayPal.NVP
             try
             {
                 CredentialManager credentialMngr = CredentialManager.Instance;
-                returnCredential = credentialMngr.GetCredentials(apiUsername);
+                returnCredential = credentialMngr.GetCredentials(this.config, apiUsername);
 
                 if (!string.IsNullOrEmpty(accessToken))
                 {
@@ -322,9 +333,10 @@ namespace PayPal.NVP
 
         private string GetDeviceIPAddress()
         {
-            if (!string.IsNullOrEmpty(ConfigManager.Instance.GetProperty(BaseConstants.PayPalIPAddress)))
+            if (config.ContainsKey(BaseConstants.PayPalIPAddress) && 
+                !string.IsNullOrEmpty(config[BaseConstants.PayPalIPAddress]))
             {
-                return ConfigManager.Instance.GetProperty(BaseConstants.PayPalIPAddress);
+                return config[BaseConstants.PayPalIPAddress];
             }
             else
             {
@@ -334,9 +346,10 @@ namespace PayPal.NVP
 
         private string GetSandboxEmailAddress()
         {
-            if (!string.IsNullOrEmpty(ConfigManager.Instance.GetProperty(BaseConstants.PayPalSandboxEmailAddress)))
+            if (config.ContainsKey(BaseConstants.PayPalSandboxEmailAddress) && 
+                !string.IsNullOrEmpty(config[BaseConstants.PayPalSandboxEmailAddress]))
             {
-                return ConfigManager.Instance.GetProperty(BaseConstants.PayPalSandboxEmailAddress);
+                return config[BaseConstants.PayPalSandboxEmailAddress];
             }
             else
             {

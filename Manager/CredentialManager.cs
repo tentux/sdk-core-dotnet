@@ -1,6 +1,8 @@
 using log4net;
 using PayPal.Authentication;
 using PayPal.Exception;
+using System.Collections.Generic;
+using System;
 
 namespace PayPal.Manager
 {
@@ -19,6 +21,7 @@ namespace PayPal.Manager
         /// </summary>
         private static readonly CredentialManager singletonInstance = new CredentialManager();
 
+        private static string ACCOUNT_PREFIX = "account";
         /// <summary>
         /// Explicit static constructor to tell C# compiler
         /// not to mark type as beforefieldinit
@@ -49,15 +52,53 @@ namespace PayPal.Manager
         /// Returns the default Account Name
         /// </summary>
         /// <returns></returns>
-        private string GetDefaultAccountName()
-        {
-            ConfigManager configMngr = ConfigManager.Instance;
-            Account firstAccount = configMngr.GetAccount(0);
-            if (firstAccount == null)
+        private Account GetAccount(Dictionary<string, string> config, string apiUsername)
+        {                        
+            foreach (KeyValuePair<string, string> kvPair in config)
             {
-                throw new MissingCredentialException("No accounts configured for API call");
+                if(kvPair.Key.EndsWith(".apiusername"))
+                {
+                    if (apiUsername == null || apiUsername.Equals(kvPair.Value)) 
+                    {
+
+                        string s = kvPair.Key.Substring(ACCOUNT_PREFIX.Length, kvPair.Key.IndexOf('.') - ACCOUNT_PREFIX.Length );
+
+                        int i = Int32.Parse(kvPair.Key.Substring(ACCOUNT_PREFIX.Length, kvPair.Key.IndexOf('.') - ACCOUNT_PREFIX.Length ));
+                        Account acct = new Account();
+                        if (config.ContainsKey(ACCOUNT_PREFIX +  i + ".apiusername")) 
+                        {
+                            acct.APIUsername = config[ACCOUNT_PREFIX +  i + ".apiusername"];
+                        }
+                        if(config.ContainsKey(ACCOUNT_PREFIX +  i + ".apipassword"))
+                        {
+                            acct.APIPassword = config[ACCOUNT_PREFIX +  i + ".apipassword"];
+                        }
+                        if(config.ContainsKey(ACCOUNT_PREFIX +  i + ".apisignature")) 
+                        {
+                            acct.APISignature = config[ACCOUNT_PREFIX +  i + ".apisignature"];
+                        }
+                        if(config.ContainsKey(ACCOUNT_PREFIX +  i + ".apicertificate")) 
+                        {
+                            acct.APICertificate = config[ACCOUNT_PREFIX +  i + ".apicertificate"];
+                        }
+                        if (config.ContainsKey(ACCOUNT_PREFIX +  i + ".privatekeypassword")) 
+                        {
+                            acct.PrivateKeyPassword = config[ACCOUNT_PREFIX +  i + ".privatekeypassword"];
+                        }            
+                        if(config.ContainsKey(ACCOUNT_PREFIX +  i + ".subject"))
+                        {
+                            acct.CertificateSubject = config[ACCOUNT_PREFIX +  i + ".subject"];
+                        }
+                        if(config.ContainsKey(ACCOUNT_PREFIX +  i + ".applicationId"))
+                        {
+                            acct.ApplicationId = config[ACCOUNT_PREFIX +  i + ".applicationId"];
+                        }
+                        return acct;
+                    }
+                }
             }
-            return firstAccount.APIUsername;
+
+            return null;
         }
 
         /// <summary>
@@ -65,16 +106,10 @@ namespace PayPal.Manager
         /// </summary>
         /// <param name="apiUserName"></param>
         /// <returns></returns>
-        public ICredential GetCredentials(string apiUserName)
+        public ICredential GetCredentials(Dictionary<string, string> config, string apiUserName)
         {
-            if (apiUserName == null)
-            {
-                apiUserName = GetDefaultAccountName();
-            }
-           
             ICredential credential = null;
-            ConfigManager configMngr = ConfigManager.Instance;
-            Account accnt = configMngr.GetAccount(apiUserName);
+            Account accnt = GetAccount(config, apiUserName);
             if (accnt == null)
             {
                 throw new MissingCredentialException("Missing credentials for " + apiUserName);

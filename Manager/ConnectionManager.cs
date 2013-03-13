@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using log4net;
 using PayPal.Exception;
@@ -45,42 +46,39 @@ namespace PayPal.Manager
         /// <summary>
         /// Create and Config a HttpWebRequest
         /// </summary>
-        /// <param name="profile"></param>
+        /// <param name="config">Config properties</param>
+        /// <param name="url">Url to connect to</param>
         /// <returns></returns>
-        public HttpWebRequest GetConnection(string url)
+        public HttpWebRequest GetConnection(Dictionary<string, string> config, string url)
         {
-            ConfigManager configMngr = ConfigManager.Instance;
-            HttpWebRequest httpRequest = null;
-                        
+
+            HttpWebRequest httpRequest = null;                        
             try
             {
                 httpRequest = (HttpWebRequest)WebRequest.Create(url);
             }
             catch (UriFormatException ex)
             {
-                logger.Debug(ex.Message);
+                logger.Error(ex.Message);
                 throw new ConfigException("Invalid URI " + url);
             }
 
             // Set connection timeout
             int ConnectionTimeout = 0;
-            bool Success = int.TryParse(configMngr.GetProperty(BaseConstants.HTTP_CONNECTION_TIMEOUT), out ConnectionTimeout);
-            if (!Success)
-            {
+            if(!config.ContainsKey(BaseConstants.HTTP_CONNECTION_TIMEOUT) ||
+                !int.TryParse(config[BaseConstants.HTTP_CONNECTION_TIMEOUT], out ConnectionTimeout)) {
                 ConnectionTimeout = BaseConstants.DEFAULT_TIMEOUT;
-            }
-
+            }            
             httpRequest.Timeout = ConnectionTimeout;
 
             // Set request proxy for tunnelling http requests via a proxy server
-            string proxyAddress = configMngr.GetProperty(BaseConstants.HTTP_PROXY_ADDRESS);
-            if (proxyAddress != null)
+            if(config.ContainsKey(BaseConstants.HTTP_PROXY_ADDRESS))
             {
                 WebProxy requestProxy = new WebProxy();
-                requestProxy.Address = new Uri(proxyAddress);
-                string proxyCredentials = configMngr.GetProperty(BaseConstants.HTTP_PROXY_CREDENTIAL);
-                if (proxyCredentials != null)
+                requestProxy.Address = new Uri(config[BaseConstants.HTTP_PROXY_ADDRESS]);                
+                if (config.ContainsKey(BaseConstants.HTTP_PROXY_CREDENTIAL))
                 {
+                    string proxyCredentials = config[BaseConstants.HTTP_PROXY_CREDENTIAL];
                     string[] proxyDetails = proxyCredentials.Split(':');
                     if (proxyDetails.Length == 2)
                     {

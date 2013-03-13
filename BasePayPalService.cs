@@ -1,13 +1,25 @@
+using System.Collections.Generic;
+using PayPal.Manager;
+
 namespace PayPal
 {
     public abstract class BasePayPalService
     {       
-       private string accessToken;
-       private string accessTokenSecret;
-       private string lastRequest;
-       private string lastResponse;
+        private string accessToken;
+        private string accessTokenSecret;
+        private string lastRequest;
+        private string lastResponse;
 
-        public BasePayPalService() { }
+        protected Dictionary<string, string> config;
+
+        public BasePayPalService() 
+        {
+            this.config = ConfigManager.Instance.GetProperties();
+        }
+
+        public BasePayPalService(Dictionary<string, string> config) {
+            this.config = config;
+        }
 
         public void setAccessToken(string accessToken)
         {
@@ -46,7 +58,7 @@ namespace PayPal
         /// <returns></returns>
         public string Call(IAPICallPreHandler apiCallHandler)
         {
-            APIService apiServ = new APIService();
+            APIService apiServ = new APIService(this.config);
             this.lastRequest = apiCallHandler.GetPayLoad();
             this.lastResponse = apiServ.MakeRequestUsing(apiCallHandler);
             return this.lastResponse;
