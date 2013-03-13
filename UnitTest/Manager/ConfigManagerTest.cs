@@ -13,26 +13,6 @@ namespace PayPal.UnitTest.Manager
         ConfigManager configMngr;
 
         [Test]
-        public void RetrieveAccountConfigByUsername()
-        {
-            configMngr = ConfigManager.Instance;
-            Account acc = configMngr.GetAccount(UnitTestConstants.APIUserName);
-            Assert.IsNotNull(acc);
-            Assert.AreEqual(UnitTestConstants.APIUserName, acc.APIUsername);
-            Assert.AreEqual(UnitTestConstants.APIPassword, acc.APIPassword);
-            Assert.AreEqual(UnitTestConstants.APISignature, acc.APISignature);
-            Assert.AreEqual(UnitTestConstants.ApplicationID, acc.ApplicationId);
-        }
-
-        [Test]
-        public void RetrieveNonExistentAccount()
-        {
-            configMngr = ConfigManager.Instance;
-            Account acc = configMngr.GetAccount("i-do-not-exist_api1.paypal.com");
-            Assert.IsNull(acc, "Invalid account name returns null account config");
-        }
-
-        [Test]
         public void RetrieveValidProperty()
         {
             configMngr = ConfigManager.Instance;
