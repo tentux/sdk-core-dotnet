@@ -67,7 +67,7 @@ namespace PayPal.Manager
             int ConnectionTimeout = 0;
             if(!config.ContainsKey(BaseConstants.HTTP_CONNECTION_TIMEOUT) ||
                 !int.TryParse(config[BaseConstants.HTTP_CONNECTION_TIMEOUT], out ConnectionTimeout)) {
-                ConnectionTimeout = BaseConstants.DEFAULT_TIMEOUT;
+                int.TryParse(ConfigManager.getDefault(BaseConstants.HTTP_CONNECTION_TIMEOUT), out ConnectionTimeout);
             }            
             httpRequest.Timeout = ConnectionTimeout;
 

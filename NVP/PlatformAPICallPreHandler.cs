@@ -333,10 +333,10 @@ namespace PayPal.NVP
 
         private string GetDeviceIPAddress()
         {
-            if (config.ContainsKey(BaseConstants.PayPalIPAddress) && 
-                !string.IsNullOrEmpty(config[BaseConstants.PayPalIPAddress]))
+            if (config.ContainsKey(BaseConstants.CLIENT_IP_ADDRESS) && 
+                !string.IsNullOrEmpty(config[BaseConstants.CLIENT_IP_ADDRESS]))
             {
-                return config[BaseConstants.PayPalIPAddress];
+                return config[BaseConstants.CLIENT_IP_ADDRESS];
             }
             else
             {

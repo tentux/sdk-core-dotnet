@@ -14,11 +14,13 @@ namespace PayPal
 
         public BasePayPalService() 
         {
-            this.config = ConfigManager.Instance.GetProperties();
+            this.config = ConfigManager.getConfigWithDefaults(
+                ConfigManager.Instance.GetProperties()
+            );
         }
 
         public BasePayPalService(Dictionary<string, string> config) {
-            this.config = config;
+            this.config = ConfigManager.getConfigWithDefaults(config);
         }
 
         public void setAccessToken(string accessToken)

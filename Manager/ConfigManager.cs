@@ -14,16 +14,22 @@ namespace PayPal.Manager
 
         private Dictionary<string, string> configValues;
 
+        private static readonly Dictionary<string, string> defaultConfig;
+        
+        
+        static ConfigManager()
+        {
+            defaultConfig = new Dictionary<string, string>();
+            // Default connection timeout in milliseconds
+            defaultConfig[BaseConstants.HTTP_CONNECTION_TIMEOUT] = "360000";
+            defaultConfig[BaseConstants.HTTP_CONNECTION_RETRY] = "1";
+            defaultConfig[BaseConstants.CLIENT_IP_ADDRESS] = "127.0.0.1";
+        }
+
         /// <summary>
         /// Singleton instance of the ConfigManager
         /// </summary>
         private static readonly ConfigManager singletonInstance = new ConfigManager();
-
-        /// <summary>
-        /// Explicit static constructor to tell C# compiler
-        /// not to mark type as beforefieldinit
-        /// </summary>
-        static ConfigManager() { }
 
         /// <summary>
         /// Private constructor
@@ -98,15 +104,31 @@ namespace PayPal.Manager
         {
             return this.configValues;
         }
-
+    
         /// <summary>
-        /// Returns the key from the configuration file
+        /// Creates new configuration that combines incoming configuration dictionary
+        /// and defaults
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public string GetProperty(string key)
+        /// <returns>Default configuration dictionary</returns>
+        public static Dictionary<string, string> getConfigWithDefaults(Dictionary<string, string> config) {
+            Dictionary<string, string> ret = new Dictionary<string, string>(config);
+            foreach (string key in ConfigManager.defaultConfig.Keys)
+            {
+                if(!ret.ContainsKey(key))
+                {
+                    ret.Add(key, defaultConfig[key]);
+                }
+            }
+            return ret;
+        }
+
+        public static string getDefault(string configKey)
         {
-            return configHandler.Setting(key);
+            if (ConfigManager.defaultConfig.ContainsKey(configKey))
+            {
+                return ConfigManager.defaultConfig[configKey];
+            }
+            return null;
         }
     }
 }

@@ -10,9 +10,6 @@ namespace PayPal
         // Log file
         public const string PAYPALLOGFILE = "PAYPALLOGFILE";
 
-        // Default connection timeout in milliseconds
-        public const int DEFAULT_TIMEOUT = 3600000;
-
         // Encoding Format
         public static readonly Encoding ENCODING_FORMAT = Encoding.UTF8;
         
@@ -68,7 +65,7 @@ namespace PayPal
 
         // Constants key defined for configuration options in application properties
         // IPAddress
-        public const string PayPalIPAddress = "IPAddress";
+        public const string CLIENT_IP_ADDRESS = "IPAddress";
        
         // Constants key defined for configuration options in application properties
         // Email Address
