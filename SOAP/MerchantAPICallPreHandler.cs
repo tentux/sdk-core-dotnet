@@ -229,7 +229,7 @@ namespace PayPal.SOAP
         /// <returns></returns>
 	    public string GetEndPoint() 
         {
-            if (PortName == null || string.IsNullOrEmpty(this.config[PortName]))
+            if (PortName == null || !config.ContainsKey(PortName) || string.IsNullOrEmpty(this.config[PortName]))
             {
                 return apiCallHandler.GetEndPoint();
             }

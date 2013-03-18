@@ -222,7 +222,7 @@ namespace PayPal.NVP
         /// <returns></returns>
 	    public string GetEndPoint()
         {
-            if (PortName == null || string.IsNullOrEmpty(config[PortName]))
+            if (PortName == null || !config.ContainsKey(PortName) || string.IsNullOrEmpty(config[PortName]))
             {
                 return config[BaseConstants.END_POINT] + serviceName + "/" + method;
             }
