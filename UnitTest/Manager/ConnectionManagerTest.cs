@@ -16,12 +16,12 @@ namespace PayPal.UnitTest.Manager
         [Test]
         public void CreateNewConnection()
         {
+            Dictionary<string, string> config = ConfigManager.Instance.GetProperties();
             connectionMngr = ConnectionManager.Instance;
-            ConfigManager configMngr = ConfigManager.Instance;
-            httpRequest = connectionMngr.GetConnection(ConfigManager.Instance.GetProperties(), "http://paypal.com/");
+            httpRequest = connectionMngr.GetConnection(config, "http://paypal.com/");
             Assert.IsNotNull(httpRequest);
             Assert.AreEqual("http://paypal.com/", httpRequest.RequestUri.AbsoluteUri);
-            Assert.AreEqual(configMngr.GetProperty("connectionTimeout"), httpRequest.Timeout.ToString());
+            Assert.AreEqual(config["connectionTimeout"], httpRequest.Timeout.ToString());
         }
 
         [Test, ExpectedException(typeof(ConfigException))]

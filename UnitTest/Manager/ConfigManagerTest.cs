@@ -15,22 +15,13 @@ namespace PayPal.UnitTest.Manager
         [Test]
         public void RetrieveValidProperty()
         {
-            configMngr = ConfigManager.Instance;
-            string endpoint = configMngr.GetProperty("endpoint");
+            Dictionary<string, string> config = ConfigManager.Instance.GetProperties();
+            string endpoint = config["endpoint"];
             Assert.IsNotNull(endpoint);
             Assert.AreEqual(UnitTestConstants.APIEndpointNVP, endpoint);
-            string connectionTimeout = configMngr.GetProperty("connectionTimeout");
+            string connectionTimeout = config["connectionTimeout"];
             Assert.IsNotNull(connectionTimeout);
             Assert.AreEqual("360000", connectionTimeout);
         }
-
-        [Test]
-        public void RetrieveNonExistentProperty()
-        {
-            configMngr = ConfigManager.Instance;
-            string endpoint = configMngr.GetProperty("endpointMisspelt");
-            Assert.IsNull(endpoint);
-        }
-
     }
 }

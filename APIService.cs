@@ -55,7 +55,7 @@ namespace PayPal
             string uri = apiCallHandler.GetEndPoint();
             Dictionary<string, string> headers = apiCallHandler.GetHeaderMap();
             string payLoad = apiCallHandler.GetPayLoad();
-            ConfigManager configMngr = ConfigManager.Instance;
+
             // Constructing HttpWebRequest object                
             ConnectionManager connMngr = ConnectionManager.Instance;
             HttpWebRequest httpRequest = connMngr.GetConnection(this.config, uri);
@@ -95,8 +95,8 @@ namespace PayPal
             }
 
             // Fire request. Retry if configured to do so
-            int numRetries = (configMngr.GetProperty(BaseConstants.HTTP_CONNECTION_RETRY) != null) ?
-                Convert.ToInt32(configMngr.GetProperty(BaseConstants.HTTP_CONNECTION_RETRY)) : 0;
+            int numRetries = (this.config.ContainsKey(BaseConstants.HTTP_CONNECTION_RETRY)) ?
+                    Convert.ToInt32(config[BaseConstants.HTTP_CONNECTION_RETRY]) : 0;
             int retries = 0;
 
             do
