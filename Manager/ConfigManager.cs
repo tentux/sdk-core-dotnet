@@ -55,23 +55,23 @@ namespace PayPal.Manager
                 Account account = (Account)elem;
                 if (account.APIUsername != null && account.APIUsername != "")
                 {
-                    this.configValues.Add("account" + i + ".apiusername", account.APIUsername);
+                    this.configValues.Add("account" + i + ".apiUsername", account.APIUsername);
                 }
                 if (account.APIPassword != null && account.APIPassword != "")
                 {
-                    this.configValues.Add("account" + i + ".apipassword", account.APIPassword);
+                    this.configValues.Add("account" + i + ".apiPassword", account.APIPassword);
                 }
                 if (account.APISignature != null && account.APISignature != "")
                 {
-                    this.configValues.Add("account" + i + ".apisignature", account.APISignature);
+                    this.configValues.Add("account" + i + ".apiSignature", account.APISignature);
                 }
                 if (account.APICertificate != null && account.APICertificate != "")
                 {
-                    this.configValues.Add("account" + i + ".apicertificate", account.APICertificate);
+                    this.configValues.Add("account" + i + ".apiCertificate", account.APICertificate);
                 }
                 if (account.PrivateKeyPassword != null && account.PrivateKeyPassword != "")
                 {
-                    this.configValues.Add("account" + i + ".privatekeypassword", account.PrivateKeyPassword);
+                    this.configValues.Add("account" + i + ".privateKeyPassword", account.PrivateKeyPassword);
                 }
                 if (account.CertificateSubject != null && account.CertificateSubject != "")
                 {

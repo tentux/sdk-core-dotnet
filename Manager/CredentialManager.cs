@@ -56,7 +56,7 @@ namespace PayPal.Manager
         {                        
             foreach (KeyValuePair<string, string> kvPair in config)
             {
-                if(kvPair.Key.EndsWith(".apiusername"))
+                if(kvPair.Key.EndsWith(".apiUsername"))
                 {
                     if (apiUsername == null || apiUsername.Equals(kvPair.Value)) 
                     {
@@ -65,25 +65,25 @@ namespace PayPal.Manager
 
                         int i = Int32.Parse(kvPair.Key.Substring(ACCOUNT_PREFIX.Length, kvPair.Key.IndexOf('.') - ACCOUNT_PREFIX.Length ));
                         Account acct = new Account();
-                        if (config.ContainsKey(ACCOUNT_PREFIX +  i + ".apiusername")) 
+                        if (config.ContainsKey(ACCOUNT_PREFIX +  i + ".apiUsername")) 
                         {
-                            acct.APIUsername = config[ACCOUNT_PREFIX +  i + ".apiusername"];
+                            acct.APIUsername = config[ACCOUNT_PREFIX +  i + ".apiUsername"];
                         }
-                        if(config.ContainsKey(ACCOUNT_PREFIX +  i + ".apipassword"))
+                        if(config.ContainsKey(ACCOUNT_PREFIX +  i + ".apiPassword"))
                         {
-                            acct.APIPassword = config[ACCOUNT_PREFIX +  i + ".apipassword"];
+                            acct.APIPassword = config[ACCOUNT_PREFIX +  i + ".apiPassword"];
                         }
-                        if(config.ContainsKey(ACCOUNT_PREFIX +  i + ".apisignature")) 
+                        if(config.ContainsKey(ACCOUNT_PREFIX +  i + ".apiSignature")) 
                         {
-                            acct.APISignature = config[ACCOUNT_PREFIX +  i + ".apisignature"];
+                            acct.APISignature = config[ACCOUNT_PREFIX +  i + ".apiSignature"];
                         }
-                        if(config.ContainsKey(ACCOUNT_PREFIX +  i + ".apicertificate")) 
+                        if(config.ContainsKey(ACCOUNT_PREFIX +  i + ".apiCertificate")) 
                         {
-                            acct.APICertificate = config[ACCOUNT_PREFIX +  i + ".apicertificate"];
+                            acct.APICertificate = config[ACCOUNT_PREFIX +  i + ".apiCertificate"];
                         }
-                        if (config.ContainsKey(ACCOUNT_PREFIX +  i + ".privatekeypassword")) 
+                        if (config.ContainsKey(ACCOUNT_PREFIX +  i + ".privateKeyPassword")) 
                         {
-                            acct.PrivateKeyPassword = config[ACCOUNT_PREFIX +  i + ".privatekeypassword"];
+                            acct.PrivateKeyPassword = config[ACCOUNT_PREFIX +  i + ".privateKeyPassword"];
                         }            
                         if(config.ContainsKey(ACCOUNT_PREFIX +  i + ".subject"))
                         {
