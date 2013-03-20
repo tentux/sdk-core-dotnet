@@ -103,7 +103,7 @@ namespace PayPal
                 try
                 {
                     Dictionary<string, string> config = configMgr.GetProperties();
-                    string ipnEndpoint = config[BaseConstants.IPNEndpoint];
+                    string ipnEndpoint = config[BaseConstants.IPN_ENDPOINT];
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ipnEndpoint);
 
                     //Set values for the request back

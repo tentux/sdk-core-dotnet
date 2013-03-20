@@ -222,11 +222,43 @@ namespace PayPal.NVP
         /// <returns></returns>
 	    public string GetEndPoint()
         {
-            if (PortName == null || !config.ContainsKey(PortName) || string.IsNullOrEmpty(config[PortName]))
+            string endpoint = null;
+            if (PortName != null && config.ContainsKey(PortName) && !string.IsNullOrEmpty(config[PortName]))
             {
-                return config[BaseConstants.END_POINT] + serviceName + "/" + method;
+                endpoint = config[PortName];
             }
-            return config[PortName] + serviceName + "/" + method;
+            else if (config.ContainsKey(BaseConstants.END_POINT))
+            {
+                endpoint = config[BaseConstants.END_POINT];
+            }
+            else if (config.ContainsKey(BaseConstants.APPLICATION_MODE))
+            {
+                switch (config[BaseConstants.APPLICATION_MODE].ToLower())
+                {
+                    case BaseConstants.LIVE_MODE:
+                        endpoint = BaseConstants.PLATFORM_LIVE_ENDPOINT;
+                        break;
+                    case BaseConstants.SANDBOX_MODE:
+                        endpoint = BaseConstants.PLATFORM_SANDBOX_ENDPOINT;
+                        break;
+                    default:
+                        throw new ConfigException("You must specify one of mode(live/sandbox) OR endpoint in the configuration");
+                }                
+            }
+            else
+            {
+                throw new ConfigException("You must specify one of mode or endpoint in the configuration");
+            }
+            
+            if (endpoint != null)
+            {
+                if(!endpoint.EndsWith("/"))
+                {
+                    endpoint = endpoint + "/";
+                }
+                endpoint = endpoint + serviceName + "/" + method;
+            }
+            return endpoint;
         }
 
         /// <summary>
@@ -284,7 +316,7 @@ namespace PayPal.NVP
 
             try
             {
-                returnMap.Add(BaseConstants.PAYPAL_APPLICATION_ID, GetApplicationID());
+                returnMap.Add(BaseConstants.PAYPAL_APPLICATION_ID_HEADER, GetApplicationID());
                 returnMap.Add(BaseConstants.PAYPAL_REQUEST_DATA_FORMAT_HEADER, BaseConstants.NVP);
                 returnMap.Add(BaseConstants.PAYPAL_RESPONSE_DATA_FORMAT_HEADER, BaseConstants.NVP);
                 returnMap.Add(BaseConstants.PAYPAL_REQUEST_SOURCE_HEADER, SDKName + "-" + SDKVersion);
@@ -346,10 +378,10 @@ namespace PayPal.NVP
 
         private string GetSandboxEmailAddress()
         {
-            if (config.ContainsKey(BaseConstants.PayPalSandboxEmailAddress) && 
-                !string.IsNullOrEmpty(config[BaseConstants.PayPalSandboxEmailAddress]))
+            if (config.ContainsKey(BaseConstants.PAYPAL_SANDBOX_EMAIL_ADDRESS) && 
+                !string.IsNullOrEmpty(config[BaseConstants.PAYPAL_SANDBOX_EMAIL_ADDRESS]))
             {
-                return config[BaseConstants.PayPalSandboxEmailAddress];
+                return config[BaseConstants.PAYPAL_SANDBOX_EMAIL_ADDRESS];
             }
             else
             {

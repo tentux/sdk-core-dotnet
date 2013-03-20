@@ -36,13 +36,13 @@ namespace PayPal
         public const string PAYPAL_SECURITY_SIGNATURE_HEADER = "X-PAYPAL-SECURITY-SIGNATURE";
 
         // PayPal Platform Authorization Header
-        public const string PAYPAL_AUTHORIZATION_PLATFORM = "X-PAYPAL-AUTHORIZATION";
+        public const string PAYPAL_AUTHORIZATION_PLATFORM_HEADER = "X-PAYPAL-AUTHORIZATION";
 
         // PayPal Merchant Authorization Header
-        public const string PAYPAL_AUTHORIZATION_MERCHANT = "X-PP-AUTHORIZATION";
+        public const string PAYPAL_AUTHORIZATION_MERCHANT_HEADER = "X-PP-AUTHORIZATION";
 
         // PayPal Application ID Header
-        public const string PAYPAL_APPLICATION_ID = "X-PAYPAL-APPLICATION-ID";
+        public const string PAYPAL_APPLICATION_ID_HEADER = "X-PAYPAL-APPLICATION-ID";
 
         // PayPal Request Data Header
         public const string PAYPAL_REQUEST_DATA_FORMAT_HEADER = "X-PAYPAL-REQUEST-DATA-FORMAT";
@@ -59,53 +59,66 @@ namespace PayPal
         // PayPal Sandbox Email Address Header
         public const string PAYPAL_SANDBOX_EMAIL_ADDRESS_HEADER = "X-PAYPAL-SANDBOX-EMAIL-ADDRESS";
 
-        // Constants key defined for configuration options in application properties
-        // End point
+        // Allowed application modes
+        public const string LIVE_MODE = "live";
+        public const string SANDBOX_MODE = "sandbox";
+
+        // Endpoints for various APIs
+        public const string PLATFORM_LIVE_ENDPOINT = "https://svcs.paypal.com/";
+        public const string PLATFORM_SANDBOX_ENDPOINT = "https://svcs.sandbox.paypal.com/";
+        public const string MERCHANT_SIGNATURE_LIVE_ENDPOINT = "https://api-3t.paypal.com/2.0/";
+        public const string MERCHANT_SIGNATURE_SANDBOX_ENDPOINT = "https://api-3t.sandbox.paypal.com/2.0/";
+        public const string MERCHANT_CERTIFICATE_LIVE_ENDPOINT = "https://api.paypal.com/2.0/";
+        public const string MERCHANT_CERTIFICATE_SANDBOX_ENDPOINT = "https://api.sandbox.paypal.com/2.0/";
+
+        // Configuration key for application mode.
+        public const string APPLICATION_MODE = "mode";
+
+        // Configuration key for End point
         public const string END_POINT = "endpoint";
 
-        // Constants key defined for configuration options in application properties
-        // IPAddress
+        // Configuration key for IPN endpoint 
+        public const string IPN_ENDPOINT = "IPNEndpoint";
+
+        // Configuration key for IPAddress
         public const string CLIENT_IP_ADDRESS = "IPAddress";
        
-        // Constants key defined for configuration options in application properties
-        // Email Address
-        public const string PayPalSandboxEmailAddress = "sandboxEmailAddress";
+        // Configuration key for Email Address
+        public const string PAYPAL_SANDBOX_EMAIL_ADDRESS = "sandboxEmailAddress";
 
-        // HTTP Proxy Address
+        // Configuration key for HTTP Proxy Address
         public const string HTTP_PROXY_ADDRESS = "proxyAddress";
 
-        // HTTP Proxy Credential
+        // Configuration key for HTTP Proxy Credential
         public const string HTTP_PROXY_CREDENTIAL = "proxyCredentials";
 
-        // HTTP Connection Timeout
+        // Configuration key for HTTP Connection Timeout
         public const string HTTP_CONNECTION_TIMEOUT = "connectionTimeout";
 
-        // HTTP Connection Retry
+        // Configuration key for HTTP Connection Retry
         public const string HTTP_CONNECTION_RETRY = "requestRetries";
 
-        // Credential Username suffix
+        // Configuration key suffix for Credential Username
         public const string CREDENTIAL_USERNAME = "apiUsername";
 
-        // Credential Password suffix
+        // Configuration key suffix for Credential Password
         public const string CREDENTIAL_PASSWORD = "apiPassword";
 
-        // Credential Application ID
+        // Configuration key suffix for Credential Application ID
         public const string CREDENTIAL_APPLICACTIONID = "applicationId";
 
-        // Credential Subject
+        // Configuration key suffix for Credential Subject
         public const string CREDENTIAL_SUBJECT = "Subject";
 
-        // Credential Signature
+        // Configuration key suffix for Credential Signature
         public const string CREDENTIAL_SIGNATURE = "apiSignature";
 
-        // Credential Certificate Path
+        // Configuration key suffix for Credential Certificate Path
         public const string CREDENTIAL_CERTPATH_SUFFIX = "apiCertificate";
 
-        // Credential Certificate Key
+        // Configuration key suffix for Credential Certificate Key
         public const string CREDENTIAL_CERTKEY_SUFFIX = "privateKeyPassword";
 
-        // IPN endpoint property name
-        public const string IPNEndpoint = "IPNEndpoint";
 
         public static class ErrorMessages
         {

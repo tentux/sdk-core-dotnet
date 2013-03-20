@@ -20,7 +20,7 @@ namespace PayPal.UnitTest.NVP
             TokenAuthorization toknAuthorization = new TokenAuthorization(UnitTestConstants.AccessToken, UnitTestConstants.TokenSecret);
             certCredential = new CertificateCredential("testusername", "testpassword", "sdk-cert.p12", "KJAERUGBLVF6Y", toknAuthorization);
             Dictionary<string, string> header = certHttpHeaderAuthStrategy.GenerateHeaderStrategy(certCredential);            
-            string authHeader = header[BaseConstants.PAYPAL_AUTHORIZATION_PLATFORM];
+            string authHeader = header[BaseConstants.PAYPAL_AUTHORIZATION_PLATFORM_HEADER];
             string[] headers = authHeader.Split(',');
             Assert.AreEqual("token=" + UnitTestConstants.AccessToken, headers[0]);
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using NUnit.Framework;
 using PayPal.Manager;
+using PayPal.Exception;
 using PayPal.Authentication;
 using PayPal.SOAP;
 
@@ -13,13 +14,25 @@ namespace PayPal.UnitTest.SOAP
     {
         private DefaultSOAPAPICallHandler defaultSoapHandler;
         private CredentialManager credentialMngr;
-        ICredential credential;
-        MerchantAPICallPreHandler soapHandler;
+        private ICredential credential;
+        private MerchantAPICallPreHandler soapHandler;
+        private Dictionary<string, string> accountConfig;
 
         public MerchantAPICallPreHandlerTest()
         {
             defaultSoapHandler = new DefaultSOAPAPICallHandler(ConfigManager.Instance.GetProperties(), "<Request>test</Request>", null, null);
             credentialMngr = CredentialManager.Instance;
+
+            accountConfig = new Dictionary<string, string>();
+            accountConfig.Add("account1.apiUsername", UnitTestConstants.APIUserName);
+            accountConfig.Add("account1.apiPassword", UnitTestConstants.APIPassword);
+            accountConfig.Add("account1.applicationId", UnitTestConstants.ApplicationID);
+            accountConfig.Add("account1.apiSignature", UnitTestConstants.APISignature);
+            accountConfig.Add("account2.apiUsername", UnitTestConstants.CertificateAPIUserName);
+            accountConfig.Add("account2.apiPassword", UnitTestConstants.CertificateAPIPassword);
+            accountConfig.Add("account2.applicationId", UnitTestConstants.ApplicationID);
+            accountConfig.Add("account2.apiCertificate", UnitTestConstants.CertificatePath);
+            accountConfig.Add("account2.privateKeyPassword", UnitTestConstants.CertificatePassword);
         }
 
         [Test]
@@ -116,7 +129,66 @@ namespace PayPal.UnitTest.SOAP
             MerchantAPICallPreHandler soapHandler = new MerchantAPICallPreHandler(ConfigManager.Instance.GetProperties(), defaultSoapHandler, credential);
             string endpoint = soapHandler.GetEndPoint();
             Assert.AreEqual(UnitTestConstants.APIEndpointNVP, endpoint);
-        }      
+        }
+
+        [Test]
+        public void GetEndpointForSandboxMode()
+        {
+            Dictionary<string, string> config = new Dictionary<string, string>(accountConfig);
+            config.Add(BaseConstants.APPLICATION_MODE, BaseConstants.LIVE_MODE);
+            
+            credential = credentialMngr.GetCredentials(config, UnitTestConstants.CertificateAPIUserName);
+            MerchantAPICallPreHandler soapHandler = new MerchantAPICallPreHandler(config, defaultSoapHandler, credential);
+            Assert.AreEqual(BaseConstants.MERCHANT_CERTIFICATE_LIVE_ENDPOINT, soapHandler.GetEndPoint());
+
+            credential = credentialMngr.GetCredentials(config, UnitTestConstants.APIUserName);
+            soapHandler = new MerchantAPICallPreHandler(config, defaultSoapHandler, credential);
+            Assert.AreEqual(BaseConstants.MERCHANT_SIGNATURE_LIVE_ENDPOINT, soapHandler.GetEndPoint());
+        }
+
+        [Test]
+        public void GetEndpointForLiveMode()
+        {
+            Dictionary<string, string> config = new Dictionary<string, string>(accountConfig);
+            config.Add(BaseConstants.APPLICATION_MODE, BaseConstants.SANDBOX_MODE);
+
+            credential = credentialMngr.GetCredentials(config, UnitTestConstants.CertificateAPIUserName);
+            MerchantAPICallPreHandler soapHandler = new MerchantAPICallPreHandler(config, defaultSoapHandler, credential);
+            Assert.AreEqual(BaseConstants.MERCHANT_CERTIFICATE_SANDBOX_ENDPOINT, soapHandler.GetEndPoint());
+
+            credential = credentialMngr.GetCredentials(config, UnitTestConstants.APIUserName);
+            soapHandler = new MerchantAPICallPreHandler(config, defaultSoapHandler, credential);
+            Assert.AreEqual(BaseConstants.MERCHANT_SIGNATURE_SANDBOX_ENDPOINT, soapHandler.GetEndPoint());
+        }
+
+        [ExpectedException(typeof(ConfigException))]
+        [Test]
+        public void GetEndpointForDefaultModeWithoutEndpoint()
+        {
+            Dictionary<string, string> config = new Dictionary<string, string>(accountConfig);
+
+            credential = credentialMngr.GetCredentials(config, UnitTestConstants.CertificateAPIUserName);
+            MerchantAPICallPreHandler soapHandler = new MerchantAPICallPreHandler(config, defaultSoapHandler, credential);
+            soapHandler.GetEndPoint();
+        }
+
+        [Test]
+        public void GetEndpointForDefaultModeWithExplicitEndpoint()
+        {
+            Dictionary<string, string> config = new Dictionary<string, string>(accountConfig);
+            config.Add(BaseConstants.END_POINT, UnitTestConstants.APIEndpointNVP);
+
+            credential = credentialMngr.GetCredentials(config, UnitTestConstants.CertificateAPIUserName);
+            MerchantAPICallPreHandler soapHandler = new MerchantAPICallPreHandler(config, defaultSoapHandler, credential);
+            Assert.AreEqual(UnitTestConstants.APIEndpointNVP, soapHandler.GetEndPoint());
+
+
+            config.Add("PayPalAPI", UnitTestConstants.APIEndpointSOAP);
+            credential = credentialMngr.GetCredentials(config, UnitTestConstants.CertificateAPIUserName);
+            soapHandler = new MerchantAPICallPreHandler(config, defaultSoapHandler, credential);
+            soapHandler.PortName = "PayPalAPI";
+            Assert.AreEqual(UnitTestConstants.APIEndpointSOAP, soapHandler.GetEndPoint());
+        }
 
         private XmlDocument GetXmlDocument(string xmlString)
         {

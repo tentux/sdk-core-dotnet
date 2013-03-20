@@ -229,11 +229,48 @@ namespace PayPal.SOAP
         /// <returns></returns>
 	    public string GetEndPoint() 
         {
-            if (PortName == null || !config.ContainsKey(PortName) || string.IsNullOrEmpty(this.config[PortName]))
+            string endpoint = null;
+            if (PortName != null && config.ContainsKey(PortName) && !string.IsNullOrEmpty(config[PortName]))
             {
-                return apiCallHandler.GetEndPoint();
+                endpoint = config[PortName];
             }
-            return config[PortName];
+            else if (config.ContainsKey(BaseConstants.END_POINT))
+            {
+                endpoint = apiCallHandler.GetEndPoint();
+            }
+            else if (config.ContainsKey(BaseConstants.APPLICATION_MODE))
+            {
+                switch (config[BaseConstants.APPLICATION_MODE].ToLower())
+                {
+                    case BaseConstants.LIVE_MODE:
+                        if (credential is SignatureCredential)
+                        {
+                            endpoint = BaseConstants.MERCHANT_SIGNATURE_LIVE_ENDPOINT;
+                        }
+                        else if (credential is CertificateCredential)
+                        {
+                            endpoint = BaseConstants.MERCHANT_CERTIFICATE_LIVE_ENDPOINT;
+                        }
+                        break;
+                    case BaseConstants.SANDBOX_MODE:
+                        if (credential is SignatureCredential)
+                        {
+                            endpoint = BaseConstants.MERCHANT_SIGNATURE_SANDBOX_ENDPOINT;
+                        }
+                        else if (credential is CertificateCredential)
+                        {
+                            endpoint = BaseConstants.MERCHANT_CERTIFICATE_SANDBOX_ENDPOINT;
+                        }
+                        break;
+                    default:
+                        throw new ConfigException("You must specify one of mode(live/sandbox) OR endpoint in the configuration");
+                }
+            }
+            else
+            {
+                throw new ConfigException("You must specify one of mode(live/sandbox) OR endpoint in the configuration");
+            }
+            return endpoint;
 	    }
         
         /// <summary>
