@@ -234,13 +234,13 @@ namespace PayPal.SOAP
             {
                 endpoint = config[PortName];
             }
-            else if (config.ContainsKey(BaseConstants.END_POINT))
+            else if (config.ContainsKey(BaseConstants.END_POINT_CONFIG))
             {
                 endpoint = apiCallHandler.GetEndPoint();
             }
-            else if (config.ContainsKey(BaseConstants.APPLICATION_MODE))
+            else if (config.ContainsKey(BaseConstants.APPLICATION_MODE_CONFIG))
             {
-                switch (config[BaseConstants.APPLICATION_MODE].ToLower())
+                switch (config[BaseConstants.APPLICATION_MODE_CONFIG].ToLower())
                 {
                     case BaseConstants.LIVE_MODE:
                         if (credential is SignatureCredential)

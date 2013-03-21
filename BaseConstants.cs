@@ -63,61 +63,64 @@ namespace PayPal
         public const string LIVE_MODE = "live";
         public const string SANDBOX_MODE = "sandbox";
 
-        // Endpoints for various APIs
-        public const string PLATFORM_LIVE_ENDPOINT = "https://svcs.paypal.com/";
-        public const string PLATFORM_SANDBOX_ENDPOINT = "https://svcs.sandbox.paypal.com/";
+        // Endpoints for various APIs        
+        public const string MERCHANT_CERTIFICATE_LIVE_ENDPOINT = "https://api.paypal.com/2.0/";        
         public const string MERCHANT_SIGNATURE_LIVE_ENDPOINT = "https://api-3t.paypal.com/2.0/";
-        public const string MERCHANT_SIGNATURE_SANDBOX_ENDPOINT = "https://api-3t.sandbox.paypal.com/2.0/";
-        public const string MERCHANT_CERTIFICATE_LIVE_ENDPOINT = "https://api.paypal.com/2.0/";
+        public const string PLATFORM_LIVE_ENDPOINT = "https://svcs.paypal.com/";
+        public const string IPN_LIVE_ENDPOINT = "https://ipnpb.paypal.com/cgi-bin/webscr";
+
         public const string MERCHANT_CERTIFICATE_SANDBOX_ENDPOINT = "https://api.sandbox.paypal.com/2.0/";
+        public const string MERCHANT_SIGNATURE_SANDBOX_ENDPOINT = "https://api-3t.sandbox.paypal.com/2.0/";
+        public const string PLATFORM_SANDBOX_ENDPOINT = "https://svcs.sandbox.paypal.com/";
+        public const string IPN_SANDBOX_ENDPOINT = "https://www.sandbox.paypal.com/cgi-bin/webscr";
 
         // Configuration key for application mode.
-        public const string APPLICATION_MODE = "mode";
+        public const string APPLICATION_MODE_CONFIG = "mode";
 
         // Configuration key for End point
-        public const string END_POINT = "endpoint";
+        public const string END_POINT_CONFIG = "endpoint";
 
         // Configuration key for IPN endpoint 
-        public const string IPN_ENDPOINT = "IPNEndpoint";
+        public const string IPN_ENDPOINT_CONFIG = "IPNEndpoint";
 
         // Configuration key for IPAddress
-        public const string CLIENT_IP_ADDRESS = "IPAddress";
+        public const string CLIENT_IP_ADDRESS_CONFIG = "IPAddress";
        
         // Configuration key for Email Address
-        public const string PAYPAL_SANDBOX_EMAIL_ADDRESS = "sandboxEmailAddress";
+        public const string PAYPAL_SANDBOX_EMAIL_ADDRESS_CONFIG = "sandboxEmailAddress";
 
         // Configuration key for HTTP Proxy Address
-        public const string HTTP_PROXY_ADDRESS = "proxyAddress";
+        public const string HTTP_PROXY_ADDRESS_CONFIG = "proxyAddress";
 
         // Configuration key for HTTP Proxy Credential
-        public const string HTTP_PROXY_CREDENTIAL = "proxyCredentials";
+        public const string HTTP_PROXY_CREDENTIAL_CONFIG = "proxyCredentials";
 
         // Configuration key for HTTP Connection Timeout
-        public const string HTTP_CONNECTION_TIMEOUT = "connectionTimeout";
+        public const string HTTP_CONNECTION_TIMEOUT_CONFIG = "connectionTimeout";
 
         // Configuration key for HTTP Connection Retry
-        public const string HTTP_CONNECTION_RETRY = "requestRetries";
+        public const string HTTP_CONNECTION_RETRY_CONFIG = "requestRetries";
 
         // Configuration key suffix for Credential Username
-        public const string CREDENTIAL_USERNAME = "apiUsername";
+        public const string CREDENTIAL_USERNAME_CONFIG = "apiUsername";
 
         // Configuration key suffix for Credential Password
-        public const string CREDENTIAL_PASSWORD = "apiPassword";
+        public const string CREDENTIAL_PASSWORD_CONFIG = "apiPassword";
 
         // Configuration key suffix for Credential Application ID
-        public const string CREDENTIAL_APPLICACTIONID = "applicationId";
+        public const string CREDENTIAL_APPLICACTIONID_CONFIG = "applicationId";
 
         // Configuration key suffix for Credential Subject
-        public const string CREDENTIAL_SUBJECT = "Subject";
+        public const string CREDENTIAL_SUBJECT_CONFIG = "Subject";
 
         // Configuration key suffix for Credential Signature
-        public const string CREDENTIAL_SIGNATURE = "apiSignature";
+        public const string CREDENTIAL_SIGNATURE_CONFIG = "apiSignature";
 
         // Configuration key suffix for Credential Certificate Path
-        public const string CREDENTIAL_CERTPATH_SUFFIX = "apiCertificate";
+        public const string CREDENTIAL_CERTPATH_CONFIG = "apiCertificate";
 
         // Configuration key suffix for Credential Certificate Key
-        public const string CREDENTIAL_CERTKEY_SUFFIX = "privateKeyPassword";
+        public const string CREDENTIAL_CERTKEY_CONFIG = "privateKeyPassword";
 
 
         public static class ErrorMessages

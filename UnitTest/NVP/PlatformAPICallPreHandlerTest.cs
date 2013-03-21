@@ -95,7 +95,7 @@ namespace PayPal.UnitTest.NVP
         public void GetEndpointForSandboxMode()
         {
             Dictionary<string, string> config = new Dictionary<string, string>(accountConfig);
-            config.Add(BaseConstants.APPLICATION_MODE, BaseConstants.LIVE_MODE);
+            config.Add(BaseConstants.APPLICATION_MODE_CONFIG, BaseConstants.LIVE_MODE);
 
             PlatformAPICallPreHandler platformHandler = new PlatformAPICallPreHandler(config, "payload", "servicename", "method", UnitTestConstants.APIUserName, "accessToken", "tokenSecret");
             Assert.AreEqual(BaseConstants.PLATFORM_LIVE_ENDPOINT + "servicename/method", platformHandler.GetEndPoint());
@@ -105,7 +105,7 @@ namespace PayPal.UnitTest.NVP
         public void GetEndpointForLiveMode()
         {
             Dictionary<string, string> config = new Dictionary<string, string>(accountConfig);
-            config.Add(BaseConstants.APPLICATION_MODE, BaseConstants.SANDBOX_MODE);
+            config.Add(BaseConstants.APPLICATION_MODE_CONFIG, BaseConstants.SANDBOX_MODE);
 
             PlatformAPICallPreHandler platformHandler = new PlatformAPICallPreHandler(config, "payload", "servicename", "method", UnitTestConstants.APIUserName, "accessToken", "tokenSecret");
             Assert.AreEqual(BaseConstants.PLATFORM_SANDBOX_ENDPOINT + "servicename/method", platformHandler.GetEndPoint());
@@ -126,7 +126,7 @@ namespace PayPal.UnitTest.NVP
         public void GetEndpointForDefaultModeWithExplicitEndpoint()
         {
             Dictionary<string, string> config = new Dictionary<string, string>(accountConfig);
-            config.Add(BaseConstants.END_POINT, UnitTestConstants.APIEndpointNVP);
+            config.Add(BaseConstants.END_POINT_CONFIG, UnitTestConstants.APIEndpointNVP);
 
             PlatformAPICallPreHandler platformHandler = new PlatformAPICallPreHandler(config, "payload", "servicename", "method", UnitTestConstants.APIUserName, "accessToken", "tokenSecret");
             Assert.AreEqual(UnitTestConstants.APIEndpointNVP + "servicename/method", platformHandler.GetEndPoint());

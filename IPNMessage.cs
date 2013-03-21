@@ -6,6 +6,7 @@ using System.Net;
 using System.Web;
 using System.IO;
 using log4net;
+using PayPal.Exception;
 using PayPal.Manager;
 
 namespace PayPal
@@ -103,7 +104,7 @@ namespace PayPal
                 try
                 {
                     Dictionary<string, string> config = configMgr.GetProperties();
-                    string ipnEndpoint = config[BaseConstants.IPN_ENDPOINT];
+                    string ipnEndpoint = GetIPNEndpoint(config);
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ipnEndpoint);
 
                     //Set values for the request back
@@ -135,6 +136,30 @@ namespace PayPal
 
                 }
                 return this.ipnValidationResult.HasValue ? this.ipnValidationResult.Value : false;
+            }
+        }
+
+        private string GetIPNEndpoint(Dictionary<string, string> config)
+        {
+            if(config.ContainsKey(BaseConstants.IPN_ENDPOINT_CONFIG) && !String.IsNullOrEmpty(config[BaseConstants.IPN_ENDPOINT_CONFIG]))
+            {
+                return config[BaseConstants.IPN_ENDPOINT_CONFIG];
+            }
+            else if (config.ContainsKey(BaseConstants.APPLICATION_MODE_CONFIG))
+            {
+                switch (config[BaseConstants.APPLICATION_MODE_CONFIG])
+                {
+                    case BaseConstants.SANDBOX_MODE:
+                        return BaseConstants.IPN_SANDBOX_ENDPOINT;
+                    case BaseConstants.LIVE_MODE:
+                        return BaseConstants.IPN_LIVE_ENDPOINT;
+                    default:
+                        throw new ConfigException("You must configure either the application mode (sandbox/live) or an IPN endpoint");
+                }
+            }
+            else
+            {
+                throw new ConfigException("You must configure either the application mode (sandbox/live) or an IPN endpoint");
             }
         }
 

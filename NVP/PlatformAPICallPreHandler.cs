@@ -227,13 +227,13 @@ namespace PayPal.NVP
             {
                 endpoint = config[PortName];
             }
-            else if (config.ContainsKey(BaseConstants.END_POINT))
+            else if (config.ContainsKey(BaseConstants.END_POINT_CONFIG))
             {
-                endpoint = config[BaseConstants.END_POINT];
+                endpoint = config[BaseConstants.END_POINT_CONFIG];
             }
-            else if (config.ContainsKey(BaseConstants.APPLICATION_MODE))
+            else if (config.ContainsKey(BaseConstants.APPLICATION_MODE_CONFIG))
             {
-                switch (config[BaseConstants.APPLICATION_MODE].ToLower())
+                switch (config[BaseConstants.APPLICATION_MODE_CONFIG].ToLower())
                 {
                     case BaseConstants.LIVE_MODE:
                         endpoint = BaseConstants.PLATFORM_LIVE_ENDPOINT;
@@ -365,10 +365,10 @@ namespace PayPal.NVP
 
         private string GetDeviceIPAddress()
         {
-            if (config.ContainsKey(BaseConstants.CLIENT_IP_ADDRESS) && 
-                !string.IsNullOrEmpty(config[BaseConstants.CLIENT_IP_ADDRESS]))
+            if (config.ContainsKey(BaseConstants.CLIENT_IP_ADDRESS_CONFIG) && 
+                !string.IsNullOrEmpty(config[BaseConstants.CLIENT_IP_ADDRESS_CONFIG]))
             {
-                return config[BaseConstants.CLIENT_IP_ADDRESS];
+                return config[BaseConstants.CLIENT_IP_ADDRESS_CONFIG];
             }
             else
             {
@@ -378,10 +378,10 @@ namespace PayPal.NVP
 
         private string GetSandboxEmailAddress()
         {
-            if (config.ContainsKey(BaseConstants.PAYPAL_SANDBOX_EMAIL_ADDRESS) && 
-                !string.IsNullOrEmpty(config[BaseConstants.PAYPAL_SANDBOX_EMAIL_ADDRESS]))
+            if (config.ContainsKey(BaseConstants.PAYPAL_SANDBOX_EMAIL_ADDRESS_CONFIG) && 
+                !string.IsNullOrEmpty(config[BaseConstants.PAYPAL_SANDBOX_EMAIL_ADDRESS_CONFIG]))
             {
-                return config[BaseConstants.PAYPAL_SANDBOX_EMAIL_ADDRESS];
+                return config[BaseConstants.PAYPAL_SANDBOX_EMAIL_ADDRESS_CONFIG];
             }
             else
             {

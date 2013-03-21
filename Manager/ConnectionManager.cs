@@ -65,20 +65,20 @@ namespace PayPal.Manager
 
             // Set connection timeout
             int ConnectionTimeout = 0;
-            if(!config.ContainsKey(BaseConstants.HTTP_CONNECTION_TIMEOUT) ||
-                !int.TryParse(config[BaseConstants.HTTP_CONNECTION_TIMEOUT], out ConnectionTimeout)) {
-                int.TryParse(ConfigManager.getDefault(BaseConstants.HTTP_CONNECTION_TIMEOUT), out ConnectionTimeout);
+            if(!config.ContainsKey(BaseConstants.HTTP_CONNECTION_TIMEOUT_CONFIG) ||
+                !int.TryParse(config[BaseConstants.HTTP_CONNECTION_TIMEOUT_CONFIG], out ConnectionTimeout)) {
+                int.TryParse(ConfigManager.getDefault(BaseConstants.HTTP_CONNECTION_TIMEOUT_CONFIG), out ConnectionTimeout);
             }            
             httpRequest.Timeout = ConnectionTimeout;
 
             // Set request proxy for tunnelling http requests via a proxy server
-            if(config.ContainsKey(BaseConstants.HTTP_PROXY_ADDRESS))
+            if(config.ContainsKey(BaseConstants.HTTP_PROXY_ADDRESS_CONFIG))
             {
                 WebProxy requestProxy = new WebProxy();
-                requestProxy.Address = new Uri(config[BaseConstants.HTTP_PROXY_ADDRESS]);                
-                if (config.ContainsKey(BaseConstants.HTTP_PROXY_CREDENTIAL))
+                requestProxy.Address = new Uri(config[BaseConstants.HTTP_PROXY_ADDRESS_CONFIG]);                
+                if (config.ContainsKey(BaseConstants.HTTP_PROXY_CREDENTIAL_CONFIG))
                 {
-                    string proxyCredentials = config[BaseConstants.HTTP_PROXY_CREDENTIAL];
+                    string proxyCredentials = config[BaseConstants.HTTP_PROXY_CREDENTIAL_CONFIG];
                     string[] proxyDetails = proxyCredentials.Split(':');
                     if (proxyDetails.Length == 2)
                     {

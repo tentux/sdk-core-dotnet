@@ -135,7 +135,7 @@ namespace PayPal.UnitTest.SOAP
         public void GetEndpointForSandboxMode()
         {
             Dictionary<string, string> config = new Dictionary<string, string>(accountConfig);
-            config.Add(BaseConstants.APPLICATION_MODE, BaseConstants.LIVE_MODE);
+            config.Add(BaseConstants.APPLICATION_MODE_CONFIG, BaseConstants.LIVE_MODE);
             
             credential = credentialMngr.GetCredentials(config, UnitTestConstants.CertificateAPIUserName);
             MerchantAPICallPreHandler soapHandler = new MerchantAPICallPreHandler(config, defaultSoapHandler, credential);
@@ -150,7 +150,7 @@ namespace PayPal.UnitTest.SOAP
         public void GetEndpointForLiveMode()
         {
             Dictionary<string, string> config = new Dictionary<string, string>(accountConfig);
-            config.Add(BaseConstants.APPLICATION_MODE, BaseConstants.SANDBOX_MODE);
+            config.Add(BaseConstants.APPLICATION_MODE_CONFIG, BaseConstants.SANDBOX_MODE);
 
             credential = credentialMngr.GetCredentials(config, UnitTestConstants.CertificateAPIUserName);
             MerchantAPICallPreHandler soapHandler = new MerchantAPICallPreHandler(config, defaultSoapHandler, credential);
@@ -176,7 +176,7 @@ namespace PayPal.UnitTest.SOAP
         public void GetEndpointForDefaultModeWithExplicitEndpoint()
         {
             Dictionary<string, string> config = new Dictionary<string, string>(accountConfig);
-            config.Add(BaseConstants.END_POINT, UnitTestConstants.APIEndpointNVP);
+            config.Add(BaseConstants.END_POINT_CONFIG, UnitTestConstants.APIEndpointNVP);
 
             credential = credentialMngr.GetCredentials(config, UnitTestConstants.CertificateAPIUserName);
             MerchantAPICallPreHandler soapHandler = new MerchantAPICallPreHandler(config, defaultSoapHandler, credential);

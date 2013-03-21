@@ -95,8 +95,8 @@ namespace PayPal
             }
 
             // Fire request. Retry if configured to do so
-            int numRetries = (this.config.ContainsKey(BaseConstants.HTTP_CONNECTION_RETRY)) ?
-                    Convert.ToInt32(config[BaseConstants.HTTP_CONNECTION_RETRY]) : 0;
+            int numRetries = (this.config.ContainsKey(BaseConstants.HTTP_CONNECTION_RETRY_CONFIG)) ?
+                    Convert.ToInt32(config[BaseConstants.HTTP_CONNECTION_RETRY_CONFIG]) : 0;
             int retries = 0;
 
             do
