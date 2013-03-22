@@ -34,9 +34,9 @@ namespace PayPal
         private const string ipnEncoding = "windows-1252";
 
         /// <summary>
-        /// ConfigManager instance
+        /// SDK configuration parameters
         /// </summary>
-        private ConfigManager configMgr = ConfigManager.Instance;
+        private Dictionary<string, string> config;
 
         /// <summary>
         /// Logger
@@ -76,15 +76,28 @@ namespace PayPal
         [Obsolete("use IPNMessage(byte[] parameters) instead")]
         public IPNMessage(NameValueCollection nvc)
         {
+            this.config = ConfigManager.Instance.GetProperties();
             this.Initialize(nvc);
         }
 
         /// <summary>
-        /// IPNMessage constructor
+        /// Construct a new IPNMessage object using dynamic SDK configuration
+        /// </summary>
+        /// <param name="config">Dynamic SDK configuration parameters</param>
+        /// <param name="parameters">byte array read from request</param>
+        public IPNMessage(Dictionary<string, string> config, byte[] parameters)
+        {
+            this.config = config;
+            this.Initialize(HttpUtility.ParseQueryString(Encoding.GetEncoding(ipnEncoding).GetString(parameters), Encoding.GetEncoding(ipnEncoding)));
+        }
+
+        /// <summary>
+        /// Construct a new IPNMessage object using .Config file based configuration
         /// </summary>
         /// <param name="parameters">byte array read from request</param>
         public IPNMessage(byte[] parameters)
         {
+            this.config = ConfigManager.Instance.GetProperties();
             this.Initialize(HttpUtility.ParseQueryString(Encoding.GetEncoding(ipnEncoding).GetString(parameters), Encoding.GetEncoding(ipnEncoding)));
         }
 
@@ -102,9 +115,8 @@ namespace PayPal
             else
             {
                 try
-                {
-                    Dictionary<string, string> config = configMgr.GetProperties();
-                    string ipnEndpoint = GetIPNEndpoint(config);
+                {   
+                    string ipnEndpoint = GetIPNEndpoint();
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ipnEndpoint);
 
                     //Set values for the request back
@@ -139,7 +151,7 @@ namespace PayPal
             }
         }
 
-        private string GetIPNEndpoint(Dictionary<string, string> config)
+        private string GetIPNEndpoint()
         {
             if(config.ContainsKey(BaseConstants.IPN_ENDPOINT_CONFIG) && !String.IsNullOrEmpty(config[BaseConstants.IPN_ENDPOINT_CONFIG]))
             {
@@ -147,7 +159,7 @@ namespace PayPal
             }
             else if (config.ContainsKey(BaseConstants.APPLICATION_MODE_CONFIG))
             {
-                switch (config[BaseConstants.APPLICATION_MODE_CONFIG])
+                switch (config[BaseConstants.APPLICATION_MODE_CONFIG].ToLower())
                 {
                     case BaseConstants.SANDBOX_MODE:
                         return BaseConstants.IPN_SANDBOX_ENDPOINT;
