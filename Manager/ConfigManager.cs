@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using PayPal.Exception;
@@ -29,7 +30,29 @@ namespace PayPal.Manager
         /// <summary>
         /// Singleton instance of the ConfigManager
         /// </summary>
-        private static readonly ConfigManager singletonInstance = new ConfigManager();
+        private static volatile ConfigManager singletonInstance;
+
+        private static object syncRoot = new Object();
+
+
+        /// <summary>
+        /// Gets the Singleton instance of the ConfigManager
+        /// </summary>
+        public static ConfigManager Instance
+        {
+            get
+            {
+                if (singletonInstance == null)
+                {
+                    lock (syncRoot)
+                    {
+                        if (singletonInstance == null)
+                            singletonInstance = new ConfigManager();
+                    }
+                }
+                return singletonInstance;
+            }
+        }
 
         /// <summary>
         /// Private constructor
@@ -39,7 +62,7 @@ namespace PayPal.Manager
             configHandler = (SDKConfigHandler)ConfigurationManager.GetSection("paypal");
             if (configHandler == null)
             {
-                throw new ConfigException("Cannot read config file");
+                throw new ConfigException("Cannot parse *.Config file. Ensure you have configured the 'paypal' section correctly.");
             }
             this.configValues = new Dictionary<string, string>();
 
@@ -82,17 +105,6 @@ namespace PayPal.Manager
                     this.configValues.Add("account" + i + ".applicationId", account.ApplicationId);
                 }
                 i++;
-            }
-        }
-
-        /// <summary>
-        /// Gets the Singleton instance of the ConfigManager
-        /// </summary>
-        public static ConfigManager Instance
-        {
-            get
-            {
-                return singletonInstance;
             }
         }
 
