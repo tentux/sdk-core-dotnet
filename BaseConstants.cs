@@ -17,7 +17,7 @@ namespace PayPal
         public const string ACCCOUT_PREFIX = "acct";
 
         // Sandbox Default Email Address
-        public const string PayPalSandboxEmailAddressDefault = "Platform.sdk.seller@gmail.com";
+        public const string PayPalSandboxEmailAddressDefault = "pp.devtools@gmail.com";
         
         // SOAP Format
         public const string SOAP = "SOAP";
