@@ -370,12 +370,13 @@ namespace PayPal.SOAP
         private string GetPayLoadUsingSOAPHeader(string payLoad, string namespaces, string header)
         {
             string returnPayLoad = null;
-            Regex regex = new Regex("(?<=>)\\{(?![0-9])");
+            Regex regex = new Regex("\\{(?![01]})");
             string formattedPayLoad = regex.Replace(payLoad, "{{");
-            regex = new Regex("(?<![0-9])}(?=<)");
+            regex = new Regex("(?<!\\{[01]{1})}");
             formattedPayLoad = regex.Replace(formattedPayLoad, "}}");
             returnPayLoad = string.Format(formattedPayLoad, new object[] { namespaces, header });
             return returnPayLoad;
+
         }
     }
 }
