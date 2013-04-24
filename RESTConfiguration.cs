@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using PayPal.Manager;
+using PayPal.Exception;
 
 namespace PayPal
 {
@@ -34,16 +36,84 @@ namespace PayPal
             }
         }
 
-        public RESTConfiguration() {}
+        private Dictionary<string, string> config;
+
+        private Dictionary<string, string> headersMap;
+
+        public RESTConfiguration(Dictionary<string, string> config)
+        {
+            this.config = ConfigManager.getConfigWithDefaults(config);
+        }
+
+        public RESTConfiguration(Dictionary<string, string> config, Dictionary<string, string> headersMap)
+        {
+            this.config = ConfigManager.getConfigWithDefaults(config);
+		    this.headersMap = (headersMap == null) ? new Dictionary<string, string>() : headersMap;
+        }
+
+        public RESTConfiguration() { }
 
         public Dictionary<string, string> GetHeaders()
         {
             Dictionary<string, string> headers = new Dictionary<string, string>();
-            headers.Add("Authorization", authorizationToken);
+            if (!string.IsNullOrEmpty(authorizationToken))
+            {
+                headers.Add("Authorization", authorizationToken);
+            }
+            else if (!string.IsNullOrEmpty(GetClientID()) && !string.IsNullOrEmpty(GetClientSecret()))
+            {
+                headers.Add("Authorization", "Basic " + EncodeToBase64(GetClientID(), GetClientSecret()));
+            }
             headers.Add("User-Agent", FormUserAgentHeader());
-            headers.Add("PayPal-Request-Id", requestId);
+            if (!string.IsNullOrEmpty(requestId))
+            {
+                headers.Add("PayPal-Request-Id", requestId);
+            }
+            
             return headers;
         }
+
+        /*
+	 * Return Client ID from configuration Map
+	 */
+        private String GetClientID()
+        {
+            return this.config[BaseConstants.CLIENT_ID];
+        }
+
+        /*
+         * Returns Client Secret from configuration Map
+         */
+        private String GetClientSecret()
+        {
+            return this.config[BaseConstants.CLIENT_SECRET];
+        }
+
+        private String EncodeToBase64(string clientID, string clientSecret)
+        {
+            try
+            {
+            byte[] bytes = Encoding.UTF8.GetBytes(clientID + ":" + clientSecret);
+		string base64ClientID = Convert.ToBase64String(bytes);
+		return base64ClientID;
+    }
+    catch (ArgumentOutOfRangeException ex)
+    {
+        throw new PayPalException(ex.Message, ex);
+    }
+    catch (ArgumentException ex)
+    {
+        throw new PayPalException(ex.Message, ex);
+    }
+    catch (NotSupportedException ex)
+    {
+        throw new PayPalException(ex.Message, ex);
+    }
+    catch (System.Exception ex)
+    {
+        throw new PayPalException(ex.Message, ex);
+    } 
+	    }
 
         private string FormUserAgentHeader()
         {

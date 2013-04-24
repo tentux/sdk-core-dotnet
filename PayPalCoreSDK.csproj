@@ -71,6 +71,13 @@
     </Compile>
     <Compile Include="OSVersionInfoClass.cs" />
     <Compile Include="PayPalResource.cs" />
+    <Compile Include="PayPal\OpenidConnect\Address.cs" />
+    <Compile Include="PayPal\OpenidConnect\CreateFromAuthorizationCodeParameters.cs" />
+    <Compile Include="PayPal\OpenidConnect\CreateFromRefreshTokenParameters.cs" />
+    <Compile Include="PayPal\OpenidConnect\Error.cs" />
+    <Compile Include="PayPal\OpenidConnect\Tokeninfo.cs" />
+    <Compile Include="PayPal\OpenidConnect\Userinfo.cs" />
+    <Compile Include="PayPal\OpenidConnect\UserinfoParameters.cs" />
     <Compile Include="RESTConfiguration.cs" />
     <Compile Include="SOAP\CertificateHttpHeaderAuthStrategy.cs" />
     <Compile Include="SOAP\CertificateSOAPHeaderAuthStrategy.cs" />

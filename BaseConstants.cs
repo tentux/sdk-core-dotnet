@@ -122,6 +122,12 @@ namespace PayPal
         // Configuration key suffix for Credential Certificate Key
         public const string CREDENTIAL_CERTKEY_CONFIG = "privateKeyPassword";
 
+        // Configuration key suffix for Client Id
+        public const string CLIENT_ID = "clientId";
+
+        // Configuration key suffix for Client Secret
+        public const string CLIENT_SECRET = "clientSecret";
+
 
         public static class ErrorMessages
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PayPal
 {
@@ -13,6 +14,8 @@ namespace PayPal
         /// Request ID
         /// </summary>
         private string requestId;
+
+        private Dictionary<string, string> configValue;
 
         /// <summary>
         /// Access Token required for the call
@@ -58,6 +61,18 @@ namespace PayPal
                     requestId = Convert.ToString(Guid.NewGuid());
                 }
                 return requestId;
+            }
+        }
+
+        public Dictionary<string, string> Config
+        {
+            get
+            {
+                return configValue;
+            }
+            set
+            {
+                this.configValue = value;
             }
         }
     }

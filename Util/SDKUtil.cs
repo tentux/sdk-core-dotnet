@@ -3,6 +3,7 @@ using System.Web;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
+using PayPal.OpenidConnect;
 
 namespace PayPal.Util
 {
@@ -16,7 +17,24 @@ namespace PayPal.Util
 				// Form a object array using the passed Map
 				parameters = splitParameters(pattern, ((QueryParameters) parameters[0]).GetMap());
 			}
-
+            else if (parameters != null && parameters.Length == 1
+					&& parameters[0] is CreateFromAuthorizationCodeParameters)
+            {
+                // Form a object array using the passed Map
+                parameters = splitParameters(pattern, ((CreateFromAuthorizationCodeParameters)parameters[0]).ContainerMap);
+            }
+            else if (parameters != null && parameters.Length == 1
+					&& parameters[0] is CreateFromRefreshTokenParameters)
+            {
+                // Form a object array using the passed Map
+                parameters = splitParameters(pattern, ((CreateFromRefreshTokenParameters)parameters[0]).ContainerMap);
+            }
+            else if (parameters != null && parameters.Length == 1
+               && parameters[0] is UserinfoParameters)
+            {
+                // Form a object array using the passed Map
+                parameters = splitParameters(pattern, ((UserinfoParameters)parameters[0]).ContainerMap);
+            }
             // Perform a simple message formatting
             string formatString = string.Format(pattern, parameters);
 
