@@ -25,35 +25,35 @@ namespace PayPal.OpenidConnect
 		/// <summary>
 		/// A resource ID that indicates the starting resource in the returned results.
 		/// </summary>
-		private string errorDescriptionValue;
+		private string error_descriptionValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string errorDescription
+		public string error_description
 		{
 			get
 			{
-				return errorDescriptionValue;
+				return error_descriptionValue;
 			}
 			set
 			{
-				errorDescriptionValue = value;
+				error_descriptionValue = value;
 			}
 		}
 		/// <summary>
 		/// A URI identifying a human-readable web page with information about the error, used to provide the client developer with additional information about the error.
 		/// </summary>
-		private string errorUriValue;
+		private string error_uriValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string errorUri
+		public string error_uri
 		{
 			get
 			{
-				return errorUriValue;
+				return error_uriValue;
 			}
 			set
 			{
-				errorUriValue = value;
+				error_uriValue = value;
 			}
 		}
 

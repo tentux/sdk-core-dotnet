@@ -17,6 +17,11 @@ namespace PayPal
 
         private Dictionary<string, string> configValue;
 
+        public APIContext()
+        {
+
+        }
+
         /// <summary>
         /// Access Token required for the call
         /// </summary>

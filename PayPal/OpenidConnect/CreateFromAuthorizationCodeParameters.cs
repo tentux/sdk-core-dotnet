@@ -6,16 +6,22 @@ namespace PayPal.OpenidConnect
 {
     public class CreateFromAuthorizationCodeParameters
     {
-        
-	private const string CODE = "code";
 
-	
-	private const string REDIRECTURI = "redirect_uri";
+        private const string CODE = "code";
 
-	
-    private const string GRANTTYPE = "grant_type";
 
-	private Dictionary<string, string> containerMapValue;
+        private const string REDIRECTURI = "redirect_uri";
+
+
+        private const string GRANTTYPE = "grant_type";
+
+        public CreateFromAuthorizationCodeParameters()
+        {
+            containerMapValue = new Dictionary<string, string>();
+            containerMapValue.Add(GRANTTYPE, "authorization_code");
+        }
+
+        private Dictionary<string, string> containerMapValue;
 
         public Dictionary<string, string> ContainerMap
         {
@@ -30,18 +36,18 @@ namespace PayPal.OpenidConnect
         }
 
 
-        
-        public void setCode(String code)
+
+        public void setCode(string code)
         {
             ContainerMap.Add(CODE, code);
         }
 
-        public void setRedirectURI(String redirectURI)
+        public void setRedirectURI(string redirectURI)
         {
             ContainerMap.Add(REDIRECTURI, redirectURI);
         }
 
-        public void setGrantType(String grantType)
+        public void setGrantType(string grantType)
         {
             ContainerMap.Add(GRANTTYPE, grantType);
         }

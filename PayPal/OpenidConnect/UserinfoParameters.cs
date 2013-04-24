@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Web;
 
 namespace PayPal.OpenidConnect
 {
@@ -18,6 +19,12 @@ namespace PayPal.OpenidConnect
 
         private Dictionary<string, string> containerMapValue;
 
+        public UserinfoParameters()
+        {
+            containerMapValue = new Dictionary<string, string>();
+            containerMapValue.Add(SCHEMA, "openid");
+        }
+
         public Dictionary<string, string> ContainerMap
         {
             get
@@ -30,14 +37,14 @@ namespace PayPal.OpenidConnect
             }
         }
 
-        public void setSchema(String schema)
+        public void setSchema(string schema)
         {
             ContainerMap.Add(SCHEMA, schema);
         }
 
-        public void setAccessToken(String accessToken)
+        public void setAccessToken(string accessToken)
         {
-            ContainerMap.Add(ACCESSTOKEN, accessToken);
+            ContainerMap.Add(ACCESSTOKEN, HttpUtility.UrlEncode(accessToken));
         }
     }
     

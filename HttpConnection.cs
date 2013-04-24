@@ -28,6 +28,13 @@ namespace PayPal
                                                   HttpStatusCode.ServiceUnavailable,
                                                 });
 
+        private Dictionary<string, string> config;
+
+        public HttpConnection(Dictionary<string, string> config)
+        {
+            this.config = config;
+        }
+
         public string Execute(string payLoad, HttpWebRequest httpRequest)
         {
             try
@@ -51,9 +58,8 @@ namespace PayPal
                         break;
                 }
 
-                ConfigManager configMngr = ConfigManager.Instance;
-                int retriesConfigured = (configMngr.GetProperties()[BaseConstants.HTTP_CONNECTION_RETRY_CONFIG] != null) ?
-                    Convert.ToInt32(configMngr.GetProperties()[BaseConstants.HTTP_CONNECTION_RETRY_CONFIG]) : 0;
+                int retriesConfigured = (config[BaseConstants.HTTP_CONNECTION_RETRY_CONFIG] != null) ?
+                    Convert.ToInt32(config[BaseConstants.HTTP_CONNECTION_RETRY_CONFIG]) : 0;
                 int retries = 0;
 
                 do
@@ -76,6 +82,11 @@ namespace PayPal
                         if (ex.Response is HttpWebResponse)
                         {
                             HttpStatusCode statusCode = ((HttpWebResponse)ex.Response).StatusCode;
+                            using (StreamReader readerStream = new StreamReader(ex.Response.GetResponseStream()))
+                            {
+                                string response = readerStream.ReadToEnd().Trim();                                
+                                logger.Debug(response);                                
+                            }
                             logger.Info("Got " + statusCode.ToString() + " response from server");
                         }
                         if (!RequiresRetry(ex))

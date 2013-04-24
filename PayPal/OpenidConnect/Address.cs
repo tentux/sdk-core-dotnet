@@ -8,18 +8,18 @@ namespace PayPal.OpenidConnect
 		/// <summary>
 		/// Full street address component, which may include house number, street name.
 		/// </summary>
-		private string streetAddressValue;
+		private string street_addressValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string streetAddress
+		public string street_address
 		{
 			get
 			{
-				return streetAddressValue;
+				return street_addressValue;
 			}
 			set
 			{
-				streetAddressValue = value;
+				street_addressValue = value;
 			}
 		}
 		/// <summary>
@@ -59,18 +59,18 @@ namespace PayPal.OpenidConnect
 		/// <summary>
 		/// Zip code or postal code component.
 		/// </summary>
-		private string postalCodeValue;
+		private string postal_codeValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string postalCode
+		public string postal_code
 		{
 			get
 			{
-				return postalCodeValue;
+				return postal_codeValue;
 			}
 			set
 			{
-				postalCodeValue = value;
+				postal_codeValue = value;
 			}
 		}
 		/// <summary>

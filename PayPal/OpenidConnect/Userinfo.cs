@@ -11,18 +11,18 @@ namespace PayPal.OpenidConnect
 		/// <summary>
 		/// Subject - Identifier for the End-User at the Issuer.
 		/// </summary>
-		private string userIdValue;
+		private string user_idValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string userId
+		public string user_id
 		{
 			get
 			{
-				return userIdValue;
+				return user_idValue;
 			}
 			set
 			{
-				userIdValue = value;
+				user_idValue = value;
 			}
 		}
 		/// <summary>
@@ -62,52 +62,52 @@ namespace PayPal.OpenidConnect
 		/// <summary>
 		/// Given name(s) or first name(s) of the End-User
 		/// </summary>
-		private string givenNameValue;
+		private string given_nameValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string givenName
+		public string given_name
 		{
 			get
 			{
-				return givenNameValue;
+				return given_nameValue;
 			}
 			set
 			{
-				givenNameValue = value;
+				given_nameValue = value;
 			}
 		}
 		/// <summary>
 		/// Surname(s) or last name(s) of the End-User.
 		/// </summary>
-		private string familyNameValue;
+		private string family_nameValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string familyName
+		public string family_name
 		{
 			get
 			{
-				return familyNameValue;
+				return family_nameValue;
 			}
 			set
 			{
-				familyNameValue = value;
+				family_nameValue = value;
 			}
 		}
 		/// <summary>
 		/// Middle name(s) of the End-User.
 		/// </summary>
-		private string middleNameValue;
+		private string middle_nameValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string middleName
+		public string middle_name
 		{
 			get
 			{
-				return middleNameValue;
+				return middle_nameValue;
 			}
 			set
 			{
-				middleNameValue = value;
+				middle_nameValue = value;
 			}
 		}
 		/// <summary>
@@ -147,18 +147,18 @@ namespace PayPal.OpenidConnect
 		/// <summary>
 		/// True if the End-User's e-mail address has been verified; otherwise false.
 		/// </summary>
-		private bool emailVerifiedValue;
+		private bool email_verifiedValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public bool emailVerified
+		public bool email_verified
 		{
 			get
 			{
-				return emailVerifiedValue;
+				return email_verifiedValue;
 			}
 			set
 			{
-				emailVerifiedValue = value;
+				email_verifiedValue = value;
 			}
 		}
 		/// <summary>
@@ -232,18 +232,18 @@ namespace PayPal.OpenidConnect
 		/// <summary>
 		/// End-User's preferred telephone number.
 		/// </summary>
-		private string phoneNumberValue;
+		private string phone_numberValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string phoneNumber
+		public string phone_number
 		{
 			get
 			{
-				return phoneNumberValue;
+				return phone_numberValue;
 			}
 			set
 			{
-				phoneNumberValue = value;
+				phone_numberValue = value;
 			}
 		}
 		/// <summary>
@@ -266,69 +266,69 @@ namespace PayPal.OpenidConnect
 		/// <summary>
 		/// Verified account status.
 		/// </summary>
-		private bool verifiedAccountValue;
+		private bool verified_accountValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public bool verifiedAccount
+		public bool verified_account
 		{
 			get
 			{
-				return verifiedAccountValue;
+				return verified_accountValue;
 			}
 			set
 			{
-				verifiedAccountValue = value;
+				verified_accountValue = value;
 			}
 		}
 		/// <summary>
 		/// Account type.
 		/// </summary>
-		private string accountTypeValue;
+		private string account_typeValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string accountType
+		public string account_type
 		{
 			get
 			{
-				return accountTypeValue;
+				return account_typeValue;
 			}
 			set
 			{
-				accountTypeValue = value;
+				account_typeValue = value;
 			}
 		}
 		/// <summary>
 		/// Account holder age range.
 		/// </summary>
-		private string ageRangeValue;
+		private string age_rangeValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string ageRange
+		public string age_range
 		{
 			get
 			{
-				return ageRangeValue;
+				return age_rangeValue;
 			}
 			set
 			{
-				ageRangeValue = value;
+				age_rangeValue = value;
 			}
 		}
 		/// <summary>
 		/// Account payer identifier.
 		/// </summary>
-		private string payerIdValue;
+		private string payer_idValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string payerId
+		public string payer_id
 		{
 			get
 			{
-				return payerIdValue;
+				return payer_idValue;
 			}
 			set
 			{
-				payerIdValue = value;
+				payer_idValue = value;
 			}
 		}
 

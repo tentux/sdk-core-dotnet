@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Web;
 using System.Collections.Generic;
 using PayPal;
 using PayPal.Util;
@@ -28,69 +29,69 @@ namespace PayPal.OpenidConnect
 		/// <summary>
 		/// The access token issued by the authorization server.
 		/// </summary>
-		private string accessTokenValue;
+		private string access_tokenValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string accessToken
+		public string access_token
 		{
 			get
 			{
-				return accessTokenValue;
+				return access_tokenValue;
 			}
 			set
 			{
-				accessTokenValue = value;
+				access_tokenValue = value;
 			}
 		}
 		/// <summary>
 		/// The refresh token, which can be used to obtain new access tokens using the same authorization grant as described in OAuth2.0 RFC6749 in Section 6.
 		/// </summary>
-		private string refreshTokenValue;
+		private string refresh_tokenValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string refreshToken
+		public string refresh_token
 		{
 			get
 			{
-				return refreshTokenValue;
+				return refresh_tokenValue;
 			}
 			set
 			{
-				refreshTokenValue = value;
+				refresh_tokenValue = value;
 			}
 		}
 		/// <summary>
 		/// The type of the token issued as described in OAuth2.0 RFC6749 (Section 7.1).  Value is case insensitive.
 		/// </summary>
-		private string tokenTypeValue;
+		private string token_typeValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string tokenType
+		public string token_type
 		{
 			get
 			{
-				return tokenTypeValue;
+				return token_typeValue;
 			}
 			set
 			{
-				tokenTypeValue = value;
+				token_typeValue = value;
 			}
 		}
 		/// <summary>
 		/// The lifetime in seconds of the access token.
 		/// </summary>
-		private int expiresInValue;
+		private int expires_inValue;
 	
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public int expiresIn
+		public int expires_in
 		{
 			get
 			{
-				return expiresInValue;
+				return expires_inValue;
 			}
 			set
 			{
-				expiresInValue = value;
+				expires_inValue = value;
 			}
 		}
 
@@ -105,11 +106,11 @@ namespace PayPal.OpenidConnect
 		/// <summary>
 		/// 
 		/// </summary>
-		public Tokeninfo(string accessToken, string tokenType, int expiresIn)
+		public Tokeninfo(string access_token, string token_type, int expires_in)
 		{
-			this.accessToken = accessToken;
-			this.tokenType = tokenType;
-			this.expiresIn = expiresIn;
+			this.access_token = access_token;
+			this.token_type = token_type;
+			this.expires_in = expires_in;
 		}
 		
 	/// <summary>
@@ -119,7 +120,7 @@ namespace PayPal.OpenidConnect
 	public static Tokeninfo CreateFromAuthorizationCode(CreateFromAuthorizationCodeParameters createFromAuthorizationCodeParameters)
 	{
 		string pattern = "v1/identity/openidconnect/tokenservice ?grant_type={0}&code={1}&redirect_uri={2}";
-		object[] parameters = new object[] { createFromAuthorizationCodeParameters.ContainerMap };
+		object[] parameters = new object[] { createFromAuthorizationCodeParameters };
 		string resourcePath = SDKUtil.FormatURIPath(pattern, parameters);
 		string payLoad = resourcePath.Substring(resourcePath.IndexOf('?') + 1);
 		resourcePath = resourcePath.Substring(0, resourcePath.IndexOf("?"));
@@ -137,7 +138,7 @@ namespace PayPal.OpenidConnect
 	public static Tokeninfo CreateFromAuthorizationCode(APIContext apiContext, CreateFromAuthorizationCodeParameters createFromAuthorizationCodeParameters)
 	{
 		string pattern = "v1/identity/openidconnect/tokenservice ?grant_type={0}&code={1}&redirect_uri={2}";
-		object[] parameters = new object[] { createFromAuthorizationCodeParameters.ContainerMap };
+		object[] parameters = new object[] { createFromAuthorizationCodeParameters };
 		string resourcePath = SDKUtil.FormatURIPath(pattern, parameters);
 		string payLoad = resourcePath.Substring(resourcePath.IndexOf('?') + 1);
 		resourcePath = resourcePath.Substring(0, resourcePath.IndexOf("?"));
@@ -154,13 +155,8 @@ namespace PayPal.OpenidConnect
 	public Tokeninfo CreateFromRefreshToken(CreateFromRefreshTokenParameters createFromRefreshTokenParameters)
 	{
 		string pattern = "v1/identity/openidconnect/tokenservice ?grant_type={0}&refresh_token={1}&scope={2}&client_id={3}&client_secret={4}";
-		Dictionary<string, string> paramsMap = new Dictionary<string, string>();
-		foreach (KeyValuePair<string, string> entry in createFromRefreshTokenParameters.ContainerMap)
-        {
-            paramsMap.Add(entry.Key, entry.Value);
-        }
-		paramsMap.Add("refresh_token", refreshToken);
-		object[] parameters = new object[] { paramsMap };
+		createFromRefreshTokenParameters.setRefreshToken(HttpUtility.UrlEncode(refresh_token));
+		object[] parameters = new object[] { createFromRefreshTokenParameters };
 		string resourcePath = SDKUtil.FormatURIPath(pattern, parameters);
 		string payLoad = resourcePath.Substring(resourcePath.IndexOf('?') + 1);
 		resourcePath = resourcePath.Substring(0, resourcePath.IndexOf("?"));
@@ -178,13 +174,8 @@ namespace PayPal.OpenidConnect
 	public Tokeninfo CreateFromRefreshToken(APIContext apiContext, CreateFromRefreshTokenParameters createFromRefreshTokenParameters)
 	{
 		string pattern = "v1/identity/openidconnect/tokenservice ?grant_type={0}&refresh_token={1}&scope={2}&client_id={3}&client_secret={4}";
-		Dictionary<string, string> paramsMap = new Dictionary<string, string>();
-		foreach (KeyValuePair<string, string> entry in createFromRefreshTokenParameters.ContainerMap)
-        {
-            paramsMap.Add(entry.Key, entry.Value);
-        }
-		paramsMap.Add("refresh_token", refreshToken);
-		object[] parameters = new object[] { paramsMap };
+		createFromRefreshTokenParameters.setRefreshToken(HttpUtility.UrlEncode(refresh_token));
+		object[] parameters = new object[] { createFromRefreshTokenParameters };
 		string resourcePath = SDKUtil.FormatURIPath(pattern, parameters);
 		string payLoad = resourcePath.Substring(resourcePath.IndexOf('?') + 1);
 		resourcePath = resourcePath.Substring(0, resourcePath.IndexOf("?"));

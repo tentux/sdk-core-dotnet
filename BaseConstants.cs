@@ -74,6 +74,9 @@ namespace PayPal
         public const string PLATFORM_SANDBOX_ENDPOINT = "https://svcs.sandbox.paypal.com/";
         public const string IPN_SANDBOX_ENDPOINT = "https://www.sandbox.paypal.com/cgi-bin/webscr";
 
+        public const string REST_SANDBOX_ENDPOINT = "https://api.sandbox.paypal.com/";
+        public const string REST_LIVE_ENDPOINT = "https://api.paypal.com/";
+
         // Configuration key for application mode.
         public const string APPLICATION_MODE_CONFIG = "mode";
 
