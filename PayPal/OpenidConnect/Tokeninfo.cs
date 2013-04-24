@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
 using PayPal;
 using PayPal.Util;
@@ -11,6 +13,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string scopeValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string scope
 		{
 			get
@@ -27,6 +30,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string accessTokenValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string accessToken
 		{
 			get
@@ -43,6 +47,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string refreshTokenValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string refreshToken
 		{
 			get
@@ -59,6 +64,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string tokenTypeValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string tokenType
 		{
 			get
@@ -75,6 +81,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private int expiresInValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public int expiresIn
 		{
 			get

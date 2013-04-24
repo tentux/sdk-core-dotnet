@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
 using PayPal;
 using PayPal.Util;
@@ -11,6 +13,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string userIdValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string userId
 		{
 			get
@@ -27,6 +30,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string subValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string sub
 		{
 			get
@@ -43,6 +47,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string nameValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string name
 		{
 			get
@@ -59,6 +64,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string givenNameValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string givenName
 		{
 			get
@@ -75,6 +81,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string familyNameValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string familyName
 		{
 			get
@@ -91,6 +98,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string middleNameValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string middleName
 		{
 			get
@@ -107,6 +115,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string pictureValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string picture
 		{
 			get
@@ -123,6 +132,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string emailValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string email
 		{
 			get
@@ -139,6 +149,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private bool emailVerifiedValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public bool emailVerified
 		{
 			get
@@ -155,6 +166,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string genderValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string gender
 		{
 			get
@@ -171,6 +183,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string birthdateValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string birthdate
 		{
 			get
@@ -187,6 +200,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string zoneinfoValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string zoneinfo
 		{
 			get
@@ -203,6 +217,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string localeValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string locale
 		{
 			get
@@ -219,6 +234,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string phoneNumberValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string phoneNumber
 		{
 			get
@@ -235,6 +251,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private Address addressValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public Address address
 		{
 			get
@@ -251,6 +268,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private bool verifiedAccountValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public bool verifiedAccount
 		{
 			get
@@ -267,6 +285,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string accountTypeValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string accountType
 		{
 			get
@@ -283,6 +302,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string ageRangeValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string ageRange
 		{
 			get
@@ -299,6 +319,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string payerIdValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string payerId
 		{
 			get

@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace PayPal.OpenidConnect
 {
@@ -8,6 +10,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string streetAddressValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string streetAddress
 		{
 			get
@@ -24,6 +27,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string localityValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string locality
 		{
 			get
@@ -40,6 +44,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string regionValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string region
 		{
 			get
@@ -56,6 +61,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string postalCodeValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string postalCode
 		{
 			get
@@ -72,6 +78,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string countryValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string country
 		{
 			get

@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace PayPal.OpenidConnect
 {
@@ -8,6 +10,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string errorValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string error
 		{
 			get
@@ -24,6 +27,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string errorDescriptionValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string errorDescription
 		{
 			get
@@ -40,6 +44,7 @@ namespace PayPal.OpenidConnect
 		/// </summary>
 		private string errorUriValue;
 	
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string errorUri
 		{
 			get
