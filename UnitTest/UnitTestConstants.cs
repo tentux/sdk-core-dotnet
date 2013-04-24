@@ -9,7 +9,7 @@ namespace PayPal.UnitTest
         public const string CertificateAPIUserName = "certuser_biz_api1.paypal.com";	    
         public const string CertificateAPIPassword = "D6JNKKULHN3G5B8A";
         // sdk-cert.p12 is in Resources folder
-        public const string CertificatePath = @"C:\GitHubEnterprise\sdk-core-dotnet\UnitTest\Resources\sdk-cert.p12";
+        public const string CertificatePath = @"C:\sdk-core-dotnet\UnitTest\Resources\sdk-cert.p12";
         public const string CertificatePassword = "password";
 	    
 	    public const string ApplicationID = "APP-80W284485P519543T";
@@ -20,6 +20,5 @@ namespace PayPal.UnitTest
                                          
         public const string PayloadNVP = @"requestEnvelope.errorLanguage=en_US&baseAmountList.currency(0).code=USD&baseAmountList.currency(0).amount=2.0&convertToCurrencyList.currencyCode(0)=GBP";
         public const string PayloadSOAP = @"<ns:GetBalanceReq><ns:GetBalanceRequest><ebl:Version>94.0</ebl:Version></ns:GetBalanceRequest></ns:GetBalanceReq>";
-
     }
 }

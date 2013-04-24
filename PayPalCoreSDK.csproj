@@ -29,6 +29,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -38,9 +39,13 @@
   <ItemGroup>
     <Compile Include="AbstractCertificateHttpHeaderAuthStrategy.cs" />
     <Compile Include="AbstractSignatureHttpHeaderAuthStrategy.cs" />
+    <Compile Include="APIContext.cs" />
     <Compile Include="BasePayPalService.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Exception\PayPalException.cs" />
+    <Compile Include="HttpConnection.cs" />
+    <Compile Include="HttpMethod.cs" />
     <Compile Include="IAPICallPreHandler.cs" />
     <Compile Include="APIService.cs" />
     <Compile Include="IAuthenticationStrategy.cs" />
@@ -52,16 +57,21 @@
     <Compile Include="Authentication\TokenAuthorization.cs" />
     <Compile Include="DefaultSOAPAPICallHandler.cs" />
     <Compile Include="IPNMessage.cs" />
+    <Compile Include="JsonFormatter.cs" />
     <Compile Include="LogManagerWrapper.cs" />
     <Compile Include="NVP\CertificateHttpHeaderAuthStrategy.cs" />
     <Compile Include="NVP\PlatformAPICallPreHandler.cs" />
     <Compile Include="NVP\SignatureHttpHeaderAuthStrategy.cs" />
+    <Compile Include="OAuthTokenCredential.cs" />
     <Compile Include="OAuth\OAuthGenerator.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="OAuth\PayPalURLEncoder.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="OSVersionInfoClass.cs" />
+    <Compile Include="PayPalResource.cs" />
+    <Compile Include="RESTConfiguration.cs" />
     <Compile Include="SOAP\CertificateHttpHeaderAuthStrategy.cs" />
     <Compile Include="SOAP\CertificateSOAPHeaderAuthStrategy.cs" />
     <Compile Include="BaseConstants.cs" />
@@ -85,6 +95,7 @@
     <Compile Include="Util\NVPUtil.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Util\QueryParameters.cs" />
     <Compile Include="Util\ReadCert.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -94,12 +105,30 @@
     <Compile Include="Util\ReflectionUtil.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Util\SDKUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CPOL.htm" />
     <Content Include="lib\log4net.dll" />
     <Content Include="LICENSE.txt" />
+    <Content Include="Packages\Newtonsoft.Json.5.0.3\lib\net20\Newtonsoft.Json.dll" />
+    <Content Include="Packages\Newtonsoft.Json.5.0.3\lib\net20\Newtonsoft.Json.xml" />
+    <Content Include="Packages\Newtonsoft.Json.5.0.3\lib\net35\Newtonsoft.Json.dll" />
+    <Content Include="Packages\Newtonsoft.Json.5.0.3\lib\net35\Newtonsoft.Json.xml" />
+    <Content Include="Packages\Newtonsoft.Json.5.0.3\lib\net40\Newtonsoft.Json.dll" />
+    <Content Include="Packages\Newtonsoft.Json.5.0.3\lib\net40\Newtonsoft.Json.xml" />
+    <Content Include="Packages\Newtonsoft.Json.5.0.3\lib\net45\Newtonsoft.Json.dll" />
+    <Content Include="Packages\Newtonsoft.Json.5.0.3\lib\net45\Newtonsoft.Json.xml" />
+    <Content Include="Packages\Newtonsoft.Json.5.0.3\lib\netcore45\Newtonsoft.Json.dll" />
+    <Content Include="Packages\Newtonsoft.Json.5.0.3\lib\netcore45\Newtonsoft.Json.xml" />
+    <Content Include="Packages\Newtonsoft.Json.5.0.3\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll" />
+    <Content Include="Packages\Newtonsoft.Json.5.0.3\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.xml" />
+    <Content Include="Packages\Newtonsoft.Json.5.0.3\lib\portable-net45+wp80+win8\Newtonsoft.Json.dll" />
+    <Content Include="Packages\Newtonsoft.Json.5.0.3\lib\portable-net45+wp80+win8\Newtonsoft.Json.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="LocalTestRun.testrunconfig" />
+    <None Include="Packages\Newtonsoft.Json.5.0.3\Newtonsoft.Json.5.0.3.nupkg" />
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
