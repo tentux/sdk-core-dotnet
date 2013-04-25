@@ -28,6 +28,9 @@ namespace PayPal
                                                   HttpStatusCode.ServiceUnavailable,
                                                 });
 
+        /// <summary>
+        /// Dynamic Configuration
+        /// </summary>
         private Dictionary<string, string> config;
 
         public HttpConnection(Dictionary<string, string> config)
@@ -65,7 +68,7 @@ namespace PayPal
                 do
                 {
                     try
-                    {                        
+                    {
                         using (WebResponse responseWeb = httpRequest.GetResponse())
                         {
                             using (StreamReader readerStream = new StreamReader(responseWeb.GetResponseStream()))
@@ -79,21 +82,22 @@ namespace PayPal
                     }
                     catch (WebException ex)
                     {
+                        string response = null;
                         if (ex.Response is HttpWebResponse)
                         {
                             HttpStatusCode statusCode = ((HttpWebResponse)ex.Response).StatusCode;
                             using (StreamReader readerStream = new StreamReader(ex.Response.GetResponseStream()))
                             {
-                                string response = readerStream.ReadToEnd().Trim();                                
-                                logger.Debug(response);                                
+                                response = readerStream.ReadToEnd().Trim();
+                                logger.Error("Error Response: " + response);
                             }
-                            logger.Info("Got " + statusCode.ToString() + " response from server");
+                            logger.Info("Got " + statusCode.ToString() + " status code from server");
                         }
                         if (!RequiresRetry(ex))
                         {
                             // Server responses in the range of 4xx and 5xx throw a WebException
-                            throw new ConnectionException("Invalid HTTP response " + ex.Message);
-                        }                       
+                            throw new ConnectionException("Invalid HTTP response " + ex.Message, response);
+                        }
                     }
 
                 } while (retries++ < retriesConfigured);

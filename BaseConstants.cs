@@ -131,6 +131,10 @@ namespace PayPal
         // Configuration key suffix for Client Secret
         public const string CLIENT_SECRET = "clientSecret";
 
+        public const string OPENID_REDIRECT_URI = "";
+
+        public const string OPENID_REDIRECT_URI_CONSTANT = "";
+
 
         public static class ErrorMessages
         {

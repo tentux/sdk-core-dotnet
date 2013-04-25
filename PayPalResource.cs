@@ -51,20 +51,20 @@ namespace PayPal
                 RESTConfiguration restConfiguration = new RESTConfiguration();
                 restConfiguration.authorizationToken = accessToken;
                 headers = restConfiguration.GetHeaders();
-         
+
                 ConnectionManager connMngr = ConnectionManager.Instance;
                 connMngr.GetConnection(ConfigManager.Instance.GetProperties(), uniformResourceIdentifier.ToString());
                 HttpWebRequest httpRequest = connMngr.GetConnection(ConfigManager.Instance.GetProperties(), uniformResourceIdentifier.ToString());
                 httpRequest.Method = httpMethod.ToString();
                 httpRequest.ContentType = "application/json";
-                httpRequest.ContentLength = payLoad.Length;               
+                httpRequest.ContentLength = payLoad.Length;
 
                 foreach (KeyValuePair<string, string> header in headers)
                 {
                     if (header.Key.Trim().Equals("User-Agent"))
                     {
                         httpRequest.UserAgent = header.Value;
-                    }                   
+                    }
                     else
                     {
                         httpRequest.Headers.Add(header.Key, header.Value);
@@ -77,7 +77,7 @@ namespace PayPal
                         logger.Debug(headerName + ":" + httpRequest.Headers[headerName]);
                     }
                 }
-                HttpConnection connectionHttp = new HttpConnection(null);
+                HttpConnection connectionHttp = new HttpConnection(ConfigManager.getConfigWithDefaults(ConfigManager.Instance.GetProperties()));
                 response = connectionHttp.Execute(payLoad, httpRequest);
                 return JsonConvert.DeserializeObject<T>(response);
             }
@@ -92,7 +92,7 @@ namespace PayPal
             catch (System.Exception ex)
             {
                 throw new PayPalException(ex.Message, ex);
-            }           
+            }
         }
 
         public static T ConfigureAndExecute<T>(APIContext apiContext, HttpMethod httpMethod, string resource, string payLoad)
@@ -117,22 +117,7 @@ namespace PayPal
                 {
                     config = ConfigManager.getConfigWithDefaults(apiContext.Config);
                 }
-                if (config.ContainsKey("endpoint"))
-                {
-                    baseUri = new Uri(config["endpoint"]);
-                }
-                else if (config.ContainsKey("mode"))
-                {
-                    switch (config["mode"].ToLower())
-                    {
-                        case "sandbox":
-                            baseUri = new Uri(BaseConstants.REST_SANDBOX_ENDPOINT);
-                            break;
-                        case "live":
-                            baseUri = new Uri(BaseConstants.REST_LIVE_ENDPOINT);
-                            break;
-                    }
-                }
+                baseUri = GetBaseURI(config);
                 bool success = Uri.TryCreate(baseUri, resource, out uniformResourceIdentifier);
 
                 RESTConfiguration restConfiguration = new RESTConfiguration(apiContext.Config, headersMap);
@@ -202,6 +187,33 @@ namespace PayPal
             }
             HttpStatusCode status = ((HttpWebResponse)ex.Response).StatusCode;
             return retryCodes.Contains(status);
+        }
+
+        /// <summary>
+        /// Returns Base URI required for the call
+        /// </summary>
+        /// <param name="config">configuration map</param>
+        /// <returns>Uri</returns>
+        private static Uri GetBaseURI(Dictionary<string, string> config)
+        {
+            Uri baseURI = null;
+            if (config.ContainsKey("endpoint"))
+            {
+                baseURI = new Uri(config["endpoint"]);
+            }
+            else if (config.ContainsKey("mode"))
+            {
+                switch (config["mode"].ToLower())
+                {
+                    case "sandbox":
+                        baseURI = new Uri(BaseConstants.REST_SANDBOX_ENDPOINT);
+                        break;
+                    case "live":
+                        baseURI = new Uri(BaseConstants.REST_LIVE_ENDPOINT);
+                        break;
+                }
+            }
+            return baseURI;
         }
     }
 }

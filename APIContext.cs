@@ -9,12 +9,15 @@ namespace PayPal
         /// Access Token
         /// </summary>
         private string tokenAccess;
-        
+
         /// <summary>
         /// Request ID
         /// </summary>
         private string requestId;
 
+        /// <summary>
+        /// Dynamic Configuration
+        /// </summary>
         private Dictionary<string, string> configValue;
 
         public APIContext()
@@ -40,7 +43,8 @@ namespace PayPal
         /// </summary>
         /// <param name="tokenAccess"></param>
         /// <param name="requestId"></param>
-        public APIContext(string tokenAccess, string requestId): this (tokenAccess)
+        public APIContext(string tokenAccess, string requestId)
+            : this(tokenAccess)
         {
             if (string.IsNullOrEmpty(requestId))
             {
