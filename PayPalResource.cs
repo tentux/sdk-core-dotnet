@@ -48,7 +48,7 @@ namespace PayPal
                 baseUri = new Uri(ConfigManager.Instance.GetProperties()["endpoint"]);
                 bool success = Uri.TryCreate(baseUri, resource, out uniformResourceIdentifier);
 
-                RESTConfiguration restConfiguration = new RESTConfiguration();
+                RESTConfiguration restConfiguration = new RESTConfiguration(ConfigManager.getConfigWithDefaults(ConfigManager.Instance.GetProperties()));
                 restConfiguration.authorizationToken = accessToken;
                 headers = restConfiguration.GetHeaders();
 

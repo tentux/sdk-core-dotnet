@@ -51,8 +51,6 @@ namespace PayPal
 		    this.headersMap = (headersMap == null) ? new Dictionary<string, string>() : headersMap;
         }
 
-        public RESTConfiguration() { }
-
         public Dictionary<string, string> GetHeaders()
         {
             Dictionary<string, string> headers = new Dictionary<string, string>();
