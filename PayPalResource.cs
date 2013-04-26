@@ -38,61 +38,8 @@ namespace PayPal
 
         public static T ConfigureAndExecute<T>(string accessToken, HttpMethod httpMethod, string resource, string payLoad)
         {
-            try
-            {
-                string response = null;
-                Dictionary<string, String> headers;
-                Uri uniformResourceIdentifier = null;
-                Uri baseUri = null;
-
-                baseUri = new Uri(ConfigManager.Instance.GetProperties()["endpoint"]);
-                bool success = Uri.TryCreate(baseUri, resource, out uniformResourceIdentifier);
-
-                RESTConfiguration restConfiguration = new RESTConfiguration(ConfigManager.getConfigWithDefaults(ConfigManager.Instance.GetProperties()));
-                restConfiguration.authorizationToken = accessToken;
-                headers = restConfiguration.GetHeaders();
-
-                ConnectionManager connMngr = ConnectionManager.Instance;
-                connMngr.GetConnection(ConfigManager.Instance.GetProperties(), uniformResourceIdentifier.ToString());
-                HttpWebRequest httpRequest = connMngr.GetConnection(ConfigManager.Instance.GetProperties(), uniformResourceIdentifier.ToString());
-                httpRequest.Method = httpMethod.ToString();
-                httpRequest.ContentType = "application/json";
-                httpRequest.ContentLength = payLoad.Length;
-
-                foreach (KeyValuePair<string, string> header in headers)
-                {
-                    if (header.Key.Trim().Equals("User-Agent"))
-                    {
-                        httpRequest.UserAgent = header.Value;
-                    }
-                    else
-                    {
-                        httpRequest.Headers.Add(header.Key, header.Value);
-                    }
-                }
-                if (logger.IsDebugEnabled)
-                {
-                    foreach (string headerName in httpRequest.Headers)
-                    {
-                        logger.Debug(headerName + ":" + httpRequest.Headers[headerName]);
-                    }
-                }
-                HttpConnection connectionHttp = new HttpConnection(ConfigManager.getConfigWithDefaults(ConfigManager.Instance.GetProperties()));
-                response = connectionHttp.Execute(payLoad, httpRequest);
-                return JsonConvert.DeserializeObject<T>(response);
-            }
-            catch (UriFormatException ex)
-            {
-                throw new PayPalException(ex.Message, ex);
-            }
-            catch (IOException ex)
-            {
-                throw new PayPalException(ex.Message, ex);
-            }
-            catch (System.Exception ex)
-            {
-                throw new PayPalException(ex.Message, ex);
-            }
+            APIContext apiContext = new APIContext(accessToken);
+            return ConfigureAndExecute<T>(apiContext, httpMethod, resource, null, payLoad);
         }
 
         public static T ConfigureAndExecute<T>(APIContext apiContext, HttpMethod httpMethod, string resource, string payLoad)

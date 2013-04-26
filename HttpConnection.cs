@@ -61,7 +61,7 @@ namespace PayPal
                         break;
                 }
 
-                int retriesConfigured = (config[BaseConstants.HTTP_CONNECTION_RETRY_CONFIG] != null) ?
+                int retriesConfigured = config.ContainsKey(BaseConstants.HTTP_CONNECTION_RETRY_CONFIG) ?
                     Convert.ToInt32(config[BaseConstants.HTTP_CONNECTION_RETRY_CONFIG]) : 0;
                 int retries = 0;
 

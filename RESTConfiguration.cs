@@ -10,6 +10,9 @@ namespace PayPal
     {
         private string authorizeToken;
 
+        /// <summary>
+        /// Authorization Token
+        /// </summary>
         public string authorizationToken
         {
             get
@@ -17,13 +20,16 @@ namespace PayPal
                 return authorizeToken;
             }
             set
-
             {
                 authorizeToken = value;
             }
         }
 
         private string requestIdentity;
+
+        /// <summary>
+        /// Idempotency Request Id
+        /// </summary>
         public string requestId
         {
             private get
@@ -36,8 +42,14 @@ namespace PayPal
             }
         }
 
+        /// <summary>
+        /// Dynamic configuration map
+        /// </summary>
         private Dictionary<string, string> config;
 
+        /// <summary>
+        /// Optional headers map
+        /// </summary>
         private Dictionary<string, string> headersMap;
 
         public RESTConfiguration(Dictionary<string, string> config)
@@ -48,7 +60,7 @@ namespace PayPal
         public RESTConfiguration(Dictionary<string, string> config, Dictionary<string, string> headersMap)
         {
             this.config = ConfigManager.getConfigWithDefaults(config);
-		    this.headersMap = (headersMap == null) ? new Dictionary<string, string>() : headersMap;
+            this.headersMap = (headersMap == null) ? new Dictionary<string, string>() : headersMap;
         }
 
         public Dictionary<string, string> GetHeaders()
@@ -67,53 +79,46 @@ namespace PayPal
             {
                 headers.Add("PayPal-Request-Id", requestId);
             }
-            
             return headers;
         }
 
-        /*
-	 * Return Client ID from configuration Map
-	 */
         private String GetClientID()
         {
-            return this.config[BaseConstants.CLIENT_ID];
+            return this.config.ContainsKey(BaseConstants.CLIENT_ID) ? this.config[BaseConstants.CLIENT_ID] : null;
         }
 
-        /*
-         * Returns Client Secret from configuration Map
-         */
         private String GetClientSecret()
         {
-            return this.config[BaseConstants.CLIENT_SECRET];
+            return this.config.ContainsKey(BaseConstants.CLIENT_SECRET) ? this.config[BaseConstants.CLIENT_SECRET] : null;
         }
 
         private String EncodeToBase64(string clientID, string clientSecret)
         {
             try
             {
-            byte[] bytes = Encoding.UTF8.GetBytes(clientID + ":" + clientSecret);
-		string base64ClientID = Convert.ToBase64String(bytes);
-		return base64ClientID;
-    }
-    catch (ArgumentOutOfRangeException ex)
-    {
-        throw new PayPalException(ex.Message, ex);
-    }
-    catch (ArgumentException ex)
-    {
-        throw new PayPalException(ex.Message, ex);
-    }
-    catch (NotSupportedException ex)
-    {
-        throw new PayPalException(ex.Message, ex);
-    }
-    catch (System.Exception ex)
-    {
-        throw new PayPalException(ex.Message, ex);
-    } 
-	    }
+                byte[] bytes = Encoding.UTF8.GetBytes(clientID + ":" + clientSecret);
+                string base64ClientID = Convert.ToBase64String(bytes);
+                return base64ClientID;
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                throw new PayPalException(ex.Message, ex);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new PayPalException(ex.Message, ex);
+            }
+            catch (NotSupportedException ex)
+            {
+                throw new PayPalException(ex.Message, ex);
+            }
+            catch (System.Exception ex)
+            {
+                throw new PayPalException(ex.Message, ex);
+            }
+        }
 
-        private string FormUserAgentHeader()
+        public static string FormUserAgentHeader()
         {
             string header = null;
             StringBuilder stringBuilder = new StringBuilder("PayPalSDK/"
@@ -130,7 +135,7 @@ namespace PayPal
             return header;
         }
 
-        private string GetOSHeader()
+        private static string GetOSHeader()
         {
             string osHeader = string.Empty;
             if (JCS.OSVersionInfo.OSBits.Equals(JCS.OSVersionInfo.SoftwareArchitecture.Bit64))
@@ -150,10 +155,10 @@ namespace PayPal
             return osHeader;
         }
 
-        private string GetDotNetVersionHeader()
+        private static string GetDotNetVersionHeader()
         {
             string DotNetVersionHeader = "lang=" + "DOTNET;" + "v=" + Environment.Version.ToString().Trim();
             return DotNetVersionHeader;
-        }          
+        }
     }
 }
