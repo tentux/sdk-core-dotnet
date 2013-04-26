@@ -175,11 +175,10 @@ namespace PayPal
                 
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Basic " + base64ClientID);
-                headers.Add("User-Agent", RESTConfiguration.FormUserAgentHeader());
                 string postRequest = "grant_type=client_credentials";
                 httpRequest.Method = "POST";
                 httpRequest.Accept = "*/*";
-                
+                httpRequest.UserAgent = RESTConfiguration.FormUserAgentHeader();
                 foreach (KeyValuePair<string, string> header in headers)
                 {
                     httpRequest.Headers.Add(header.Key, header.Value);
