@@ -13,8 +13,8 @@ namespace PayPal.UnitTest
         public void testGetAuthUrl()
         {
             Dictionary<String, String> configurationMap = new Dictionary<string, string>();
-            configurationMap.Add("clientId", "dummy");
-            configurationMap.Add("clientSecret",
+            configurationMap.Add("ClientID", "dummy");
+            configurationMap.Add("ClientSecret",
                     "dummypassword");
             configurationMap.Add("mode", "live");
             APIContext apiContext = new APIContext();
