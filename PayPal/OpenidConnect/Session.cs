@@ -4,7 +4,7 @@ using System.Text;
 using System.Web;
 using PayPal.Manager;
 
-namespace PayPal.PayPal.OpenidConnect
+namespace PayPal.OpenidConnect
 {
     public class Session
     {
@@ -17,7 +17,7 @@ namespace PayPal.PayPal.OpenidConnect
         /// <param name="scope"></param>
         /// <param name="apiContext"></param>
         /// <returns></returns>
-        public static string GetRedirectURL(String redirectURI, List<String> scope,
+        public static string GetRedirectURL(string redirectURI, List<string> scope,
             APIContext apiContext)
         {
             string redirectURL = null;
@@ -60,7 +60,7 @@ namespace PayPal.PayPal.OpenidConnect
             StringBuilder strBuilder = new StringBuilder();
             strBuilder.Append("client_id=").Append(HttpUtility.UrlEncode((config.ContainsKey(BaseConstants.CLIENT_ID)) ? config[BaseConstants.CLIENT_ID] : "")).Append("&response_type=").Append("code").Append("&scope=");
             StringBuilder scpBuilder = new StringBuilder();
-            foreach (String str in scope)
+            foreach (string str in scope)
             {
                 scpBuilder.Append(str).Append(" ");
             }
@@ -79,7 +79,7 @@ namespace PayPal.PayPal.OpenidConnect
         /// <param name="idToken"></param>
         /// <param name="apiContext"></param>
         /// <returns></returns>
-        public static String GetLogoutUrl(string redirectURI, string idToken,
+        public static string GetLogoutUrl(string redirectURI, string idToken,
             APIContext apiContext)
         {
             string logoutURL = null;

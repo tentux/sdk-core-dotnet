@@ -5,6 +5,7 @@ using NUnit.Framework;
 using PayPal.Authentication;
 using PayPal.SOAP;
 
+
 namespace PayPal.UnitTest.SOAP
 {
     [TestFixture]
@@ -75,7 +76,7 @@ namespace PayPal.UnitTest.SOAP
             subAuthorization = new SubjectAuthorization("testsubject");
             signSOAPHeaderAuthStrategy.ThirdPartyAuthorization = subAuthorization;
             Assert.IsNotNull(signSOAPHeaderAuthStrategy.ThirdPartyAuthorization);
-            Assert.AreEqual("testsubject", ((PayPal.Authentication.SubjectAuthorization)(signSOAPHeaderAuthStrategy.ThirdPartyAuthorization)).Subject);
+            Assert.AreEqual("testsubject", ((SubjectAuthorization)(signSOAPHeaderAuthStrategy.ThirdPartyAuthorization)).Subject);
         }
         
         private XmlDocument GetXmlDocument(string xmlString)
