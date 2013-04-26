@@ -30,10 +30,14 @@ namespace PayPal.PayPal.OpenidConnect
             {
                 config = ConfigManager.getConfigWithDefaults(apiContext.Config);
             }
-            string baseURL = config[BaseConstants.OPENID_REDIRECT_URI];
-            if (string.IsNullOrEmpty(baseURL))
+            string baseURL = null;
+            if (config.ContainsKey(BaseConstants.OPENID_REDIRECT_URI))
             {
-                baseURL = config[BaseConstants.OPENID_REDIRECT_URI_CONSTANT];
+                baseURL = config[BaseConstants.OPENID_REDIRECT_URI];
+            }
+            else
+            {
+                baseURL = BaseConstants.OPENID_REDIRECT_URI_CONSTANT;
             }
             if (baseURL.EndsWith("/"))
             {
@@ -88,10 +92,14 @@ namespace PayPal.PayPal.OpenidConnect
             {
                 config = ConfigManager.getConfigWithDefaults(apiContext.Config);
             }
-            string baseURL = config[BaseConstants.OPENID_REDIRECT_URI];
-            if (string.IsNullOrEmpty(baseURL))
+            string baseURL = null;
+            if (config.ContainsKey(BaseConstants.OPENID_REDIRECT_URI))
             {
-                baseURL = config[BaseConstants.OPENID_REDIRECT_URI_CONSTANT];
+                baseURL = config[BaseConstants.OPENID_REDIRECT_URI];
+            }
+            else
+            {
+                baseURL = BaseConstants.OPENID_REDIRECT_URI_CONSTANT;
             }
             if (baseURL.EndsWith("/"))
             {

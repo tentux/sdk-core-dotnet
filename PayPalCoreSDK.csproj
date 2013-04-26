@@ -75,6 +75,7 @@
     <Compile Include="PayPal\OpenidConnect\CreateFromAuthorizationCodeParameters.cs" />
     <Compile Include="PayPal\OpenidConnect\CreateFromRefreshTokenParameters.cs" />
     <Compile Include="PayPal\OpenidConnect\Error.cs" />
+    <Compile Include="PayPal\OpenidConnect\Session.cs" />
     <Compile Include="PayPal\OpenidConnect\Tokeninfo.cs" />
     <Compile Include="PayPal\OpenidConnect\Userinfo.cs" />
     <Compile Include="PayPal\OpenidConnect\UserinfoParameters.cs" />

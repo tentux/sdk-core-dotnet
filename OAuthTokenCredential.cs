@@ -53,6 +53,11 @@ namespace PayPal
         private long timeInMilliseconds;
 
         /// <summary>
+        /// Dynamic configuration map
+        /// </summary>
+        private Dictionary<string, string> config;
+
+        /// <summary>
         /// Logs output statements, errors, debug info to a text file    
         /// </summary>
         private static readonly ILog logger = LogManagerWrapper.GetLogger(typeof(OAuthTokenCredential));
@@ -66,6 +71,26 @@ namespace PayPal
         {
             this.clientID = clientID;
             this.clientSecret = clientSecret;
+            this.config = ConfigManager.getConfigWithDefaults(ConfigManager.Instance.GetProperties());
+        }
+
+        /// <summary>
+        /// Client ID and Secret for the OAuth
+        /// </summary>
+        /// <param name="clientID"></param>
+        /// <param name="clientSecret"></param>
+        public OAuthTokenCredential(String clientID, String clientSecret, Dictionary<string, string> config)
+        {
+            this.clientID = clientID;
+            this.clientSecret = clientSecret;
+            if (config != null)
+            {
+                ConfigManager.getConfigWithDefaults(config);
+            }
+            else
+            {
+                this.config = ConfigManager.getConfigWithDefaults(ConfigManager.Instance.GetProperties());
+            }
         }
 
         public string GetAccessToken()
@@ -135,24 +160,22 @@ namespace PayPal
                 
                 Uri uniformResourceIdentifier = null;
                 Uri baseUri = null;
-                if (ConfigManager.Instance.GetProperties()["oauth.EndPoint"] !=null)
+                if (config.ContainsKey(BaseConstants.OAUTH_ENDPOINT))
                 {
-                    baseUri = new Uri(ConfigManager.Instance.GetProperties()["oauth.EndPoint"]);
+                    baseUri = new Uri(config[BaseConstants.OAUTH_ENDPOINT]);
                 }
-                else
+                else if (config.ContainsKey(BaseConstants.END_POINT_CONFIG))
                 {
-                    baseUri = new Uri(ConfigManager.Instance.GetProperties()["endpoint"]);
+                    baseUri = new Uri(config[BaseConstants.END_POINT_CONFIG]);
                 }
                 bool success = Uri.TryCreate(baseUri, OAUTHTOKENPATH, out uniformResourceIdentifier);
-
-
                 ConnectionManager connManager = ConnectionManager.Instance;
                 HttpWebRequest httpRequest = connManager.GetConnection(ConfigManager.Instance.GetProperties(), uniformResourceIdentifier.AbsoluteUri);  
               
                 
                 Dictionary<string, string> headers = new Dictionary<string, string>();
                 headers.Add("Authorization", "Basic " + base64ClientID);
-                
+                headers.Add("User-Agent", RESTConfiguration.FormUserAgentHeader());
                 string postRequest = "grant_type=client_credentials";
                 httpRequest.Method = "POST";
                 httpRequest.Accept = "*/*";
