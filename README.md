@@ -20,6 +20,59 @@ The PayPal Core SDK for .NET
  	Error log: The PayPal Core SDK uses the log4net tool to log output statements to a text file to help locate the problem.
  	Backward compatibility: The PayPal Core SDK is developed using .NET Framework 2.0 and should compile on later versions of the .NET Framework.
 
+## OpenID Connect Integration
+   * Redirect your buyer to obtain authorization.
+   * Capture the authorization code that is available as a query parameter ("code") in the redirect url
+   * Exchange the authorization code for a access token, refresh token, id token combo
+	
+    Dictionary<string, string> configurationMap1 = new Dictionary<string, string>();
+    configurationMap1.Add("clientId", "...");
+    configurationMap1.Add("clientSecret", "...");
+    configurationMap1.Add("service.EndPoint", "https://api.paypal.com/");
+    APIContext apiContext1 = new APIContext();
+    apiContext1.Config = configurationMap1;
+
+    ...
+
+    CreateFromAuthorizationCodeParameters param13 = new CreateFromAuthorizationCodeParameters();
+    param13.setCode("code");
+    Tokeninfo info13 = Tokeninfo.CreateFromAuthorizationCode(apiContext, param13);
+    string accessToken3 = info13.access_token;
+
+   * The access token is valid for a predefined duration and can be used for seamless XO or for retrieving user information
+
+    Dictionary<string, string> configurationMap2 = new Dictionary<string, string>();
+    configurationMap2.Add("clientId", "...");
+    configurationMap2.Add("clientSecret", "...");
+    configurationMap2.Add("service.EndPoint", "https://api.paypal.com/");
+    APIContext apiContext2 = new APIContext();
+    apiContext2.Config = configurationMap2;
+
+    ...
+
+    Tokeninfo info2 = new Tokeninfo();
+    info2.refresh_token = "refreshToken";
+    UserinfoParameters param2 = new UserinfoParameters();
+    param2.setAccessToken(info2.access_token);
+    Userinfo userInfo = Userinfo.GetUserinfo(apiContext2, param2);
+
+   * If the access token has expired, you can obtain a new access token using the refresh token from the 3'rd step.
+
+    Dictionary<string, string> configurationMap3 = new Dictionary<string, string>();
+    configurationMap3.Add("clientId", "...");
+    configurationMap3.Add("clientSecret", "...");
+    configurationMap3.Add("service.EndPoint", "https://api.paypal.com/");
+    APIContext apiContext3 = new APIContext();
+    apiContext3.Config = configurationMap3;
+
+    ...
+
+    CreateFromRefreshTokenParameters param3 = new CreateFromRefreshTokenParameters();
+    param3.setScope("openid"); // Optional
+    Tokeninfo info3 = new Tokeninfo(); // Create Token info object; setting the refresh token
+    info3.refresh_token = "refreshToken";
+
+    info3.CreateFromRefreshToken(apiContext3, param3);
 
 License
 -------
@@ -48,33 +101,33 @@ NuGet 2.2
 *   If you decide to remove the library, NuGet removes files and reverses whatever changes it made in your project so that no clutter is left.
 
 
-NuGet – Installing NuGet in Visual Studio 2012 and 2010
+NuGet ï¿½ Installing NuGet in Visual Studio 2012 and 2010
 -------------------------------------------------------
-NuGet – Installing NuGet in Visual Studio 2012 and 2010:
-Go to Menu –> Tools
+NuGet ï¿½ Installing NuGet in Visual Studio 2012 and 2010:
+Go to Menu ï¿½> Tools
 
-Select Extensions and Updates… (Extension Manager... in Visual Studio 2010)
+Select Extensions and Updatesï¿½ (Extension Manager... in Visual Studio 2010)
 
 Enter NuGet in the search box and click Online (Online Gallery in Visual Studio 2010)
 
-Let it Retrieve information…
+Let it Retrieve informationï¿½
 
 Select the retrieved NuGet Package Manager, and click Download
 
-Let it Download…
+Let it Downloadï¿½
 
 Click Install on the VSIX (Visual Studio Extension in Visual Studio 2010) Installer NuGet Package Manager
 
-Let it do Installing…
+Let it do Installingï¿½
 
 Click Close
 
 Click Restart Now
 
-Go to Menu –> Tools, select Options…
+Go to Menu ï¿½> Tools, select Optionsï¿½
 
 Verify the following on the Options pop-up
-Click Package Manager –> Package Sources
+Click Package Manager ï¿½> Package Sources
 Available package sources:
 Check box (checked) NuGet official package source
 https://nuget.org/api/v2/
@@ -82,7 +135,7 @@ Name: NuGet official package source
 Source: https://nuget.org/api/v2/
 Click OK
 
-Go to Menu –> Tools –> Library Package Manage –> Package Manager Console
+Go to Menu ï¿½> Tools ï¿½> Library Package Manage ï¿½> Package Manager Console
 
 Select NuGet official package source from the Package source dropdown box in the Package Manager Console
 
@@ -94,7 +147,7 @@ After successful installation, note that the dependencies are downloaded and ins
 
 If the Packages folder was not included in the project - Select the project, click Show All Files, and expand the packages folder
 
-Also, go to Menu –> Tools –> Library Package Manager, select Manage NuGet Packages for Solution…
+Also, go to Menu ï¿½> Tools ï¿½> Library Package Manager, select Manage NuGet Packages for Solutionï¿½
 
 Manage NuGet Packages
 log4net
@@ -119,11 +172,11 @@ NuGet - Integrating NuGet with Visual Studio 2008 and 2005
 ----------------------------------------------------------
 
 Prerequisites:
-•	.NET Framework 4.0 or higher
-•	NuGet 2.2
+ï¿½	.NET Framework 4.0 or higher
+ï¿½	NuGet 2.2
 	
 
-Check if .NET Framework 4.0 or higher is installed in the Computer from Control Panel –> Get programs
+Check if .NET Framework 4.0 or higher is installed in the Computer from Control Panel ï¿½> Get programs
 
 Or else
 
@@ -142,12 +195,12 @@ Note: Most Windows machines may have .NET Framework 4.0 or higher installed as p
 
 If V4.X is not installed, then download and install
 
-•	.NET Framework 4 (Standalone Installer) – (free to download):
+ï¿½	.NET Framework 4 (Standalone Installer) ï¿½ (free to download):
 	http://www.microsoft.com/en-in/download/details.aspx?id=17718
 
 Or else
 
-•	.NET Framework 4 (Web Installer) – (free to download):
+ï¿½	.NET Framework 4 (Web Installer) ï¿½ (free to download):
 	http://www.microsoft.com/en-in/download/details.aspx?id=17851
 
 
@@ -156,9 +209,9 @@ Download NuGet.exe Command Line (free to download): http://nuget.codeplex.com/re
 Save NuGet.exe to a folder viz., 'C:\NuGet' and add its path to the Environment Variables Path:
 
 Visual Studio 2008 or 2005
-Go to Menu –> Tools
+Go to Menu ï¿½> Tools
 
-Select External Tools…
+Select External Toolsï¿½
 
 External Tools
 
@@ -181,15 +234,15 @@ Click Apply
 
 Click OK
 
-On Clicking Apply and OK, let the NuGet Install be added (as External Command 6*) to Menu –> Tools
+On Clicking Apply and OK, let the NuGet Install be added (as External Command 6*) to Menu ï¿½> Tools
 *Note: The External Command number may differ depending on the particular Visual Studio installation
 
-Menu –> Tools, clicking NuGet Install will pop up for NuGet Install Arguments and Command Line
+Menu ï¿½> Tools, clicking NuGet Install will pop up for NuGet Install Arguments and Command Line
 
 Also, let the NuGet Toolbar be added to Visual Studio
-Right-click on Visual Studio Menu and select Customize…
+Right-click on Visual Studio Menu and select Customizeï¿½
 
-Customize by clicking New…
+Customize by clicking Newï¿½
 
 Enter Toolbar name: NuGet 
 Click OK
@@ -220,7 +273,7 @@ NuGet Install: PayPalAdaptiveAccountsSDK
 Enter Arguments: 
 install log4net -excludeversion -outputDirectory .\Packages
  
-Menu View –> Output (Ctrl+Alt+O)
+Menu View ï¿½> Output (Ctrl+Alt+O)
  
 After successful installation, note that the dependencies are downloaded and installed to the Packages folder of the Project Directory i.e., $(ProjectDir) - Select the project and click Show All Files, and expand the Packages folder
 
