@@ -33,7 +33,7 @@ The PayPal Core SDK for .NET
     apiContext1.Config = configurationMap1;
 
     ...
-
+    
     CreateFromAuthorizationCodeParameters param13 = new CreateFromAuthorizationCodeParameters();
     param13.setCode("code");
     Tokeninfo info13 = Tokeninfo.CreateFromAuthorizationCode(apiContext, param13);
@@ -64,14 +64,14 @@ The PayPal Core SDK for .NET
     configurationMap3.Add("service.EndPoint", "https://api.paypal.com/");
     APIContext apiContext3 = new APIContext();
     apiContext3.Config = configurationMap3;
-
+    
     ...
-
+    
     CreateFromRefreshTokenParameters param3 = new CreateFromRefreshTokenParameters();
     param3.setScope("openid"); // Optional
     Tokeninfo info3 = new Tokeninfo(); // Create Token info object; setting the refresh token
     info3.refresh_token = "refreshToken";
-
+    
     info3.CreateFromRefreshToken(apiContext3, param3);
 
 License
